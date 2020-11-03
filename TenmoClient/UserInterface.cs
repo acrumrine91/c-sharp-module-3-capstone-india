@@ -118,7 +118,7 @@ namespace TenmoClient
 
         private void HandleUserLogin()
         {
-            while (!UserService.IsLoggedIn()) //will keep looping until user is logged in
+            while (!UserService.IsLoggedIn) //will keep looping until user is logged in
             {
                 LoginUser loginUser = consoleService.PromptForLogin();
                 API_User user = authService.Login(loginUser);

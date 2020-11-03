@@ -11,19 +11,28 @@ namespace TenmoClient
             user = u;
         }
 
-        public static int GetUserId()
+        public static int UserId
         {
-            return user.UserId;
+            get 
+            {
+                return user.UserId;
+            }
         }
 
-        public static bool IsLoggedIn()
+        public static bool IsLoggedIn
         {
-            return !string.IsNullOrWhiteSpace(user.Token);
+            get
+            {
+                return !string.IsNullOrWhiteSpace(user.Token);
+            }
         }
 
-        public static string GetToken()
+        public static string Token
         {
-            return user?.Token ?? string.Empty;
+            get
+            {
+                return user?.Token ?? string.Empty;
+            }
         }
     }
 }
