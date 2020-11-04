@@ -79,8 +79,13 @@ namespace TenmoServer
             // Dependency Injection configuration about only part of file well be modifying
             services.AddSingleton<ITokenGenerator>(tk => new JwtGenerator(Configuration["JwtSecret"]));
             services.AddSingleton<IPasswordHasher>(ph => new PasswordHasher());
+<<<<<<< HEAD
             services.AddTransient<IUserDAO>(m => new UserSqlDAO(connectionString));//good model to follow for other DAOs needed to create
             
+=======
+            services.AddTransient<IUserDAO>(m => new UserSqlDAO(connectionString));
+            services.AddTransient<IAccountsDAO>(m => new AccountsSqlDAO(connectionString));
+>>>>>>> 1511c3a3dab26b97ead0d22531ff413cc8ba738d
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

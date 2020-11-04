@@ -1,4 +1,5 @@
 ﻿using System;
+using TenmoClient.APIClients;
 using TenmoClient.Data;
 
 namespace TenmoClient
@@ -7,6 +8,7 @@ namespace TenmoClient
     {
         private readonly ConsoleService consoleService = new ConsoleService();
         private readonly AuthService authService = new AuthService();
+        private readonly AccountService accountService = new AccountService();
 
         private bool shouldExit = false;
 
@@ -75,7 +77,7 @@ namespace TenmoClient
                     switch (menuSelection)
                     {
                         case 1:
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            Get
                             break;
                         case 2:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -115,7 +117,10 @@ namespace TenmoClient
             Console.WriteLine("");
             Console.WriteLine("Registration successful. You can now log in.");
         }
-
+        private void DisplayBalance()
+        {
+            
+        }
         private void HandleUserLogin()
         {
             while (!UserService.IsLoggedIn) //will keep looping until user is logged in
@@ -125,6 +130,8 @@ namespace TenmoClient
                 if (user != null)
                 {
                     UserService.SetLogin(user);
+                    this.accountService.UpdateToken(user.Token);
+                    //will put the method to update token into the service class we create
                 }
             }
         }
