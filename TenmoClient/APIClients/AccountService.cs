@@ -34,9 +34,9 @@ namespace TenmoClient.APIClients
 
         public API_Account GetBalance()
         {
-            RestRequest request = new RestRequest($"{BASE_URL}");
+            RestRequest request = new RestRequest(BASE_URL + "/id");
 
-            var response = client.Get<API_Account>(request);
+            IRestResponse<API_Account> response = client.Get<API_Account>(request);
 
             if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
             {
@@ -46,7 +46,7 @@ namespace TenmoClient.APIClients
             {
                 Console.WriteLine("An error occured fetching balance");
 
-                return new API_Account();
+                return null;
             }
         } 
     }

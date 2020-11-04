@@ -12,7 +12,7 @@ namespace TenmoServer.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-
+    [Authorize]
     public class AccountsController : ControllerBase
     {
 
@@ -25,7 +25,6 @@ namespace TenmoServer.Controllers
 
         //put url in account controller
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public ActionResult<Account> GetBalance (int id)
         {
             Account account = this.accountsDAO.GetBalance(id);
