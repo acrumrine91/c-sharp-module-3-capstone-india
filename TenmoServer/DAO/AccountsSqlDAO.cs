@@ -16,18 +16,19 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public Account GetBalance()
+        public Account GetBalance(int id)
         {
+            
             
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT balance FROM accounts", conn);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM accounts JOIN users ON users.user_id = , conn);
+                cmd.Parameters.AddWithValue("@UserID", user.UserId);
 
 
-
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader(); //scaler
 
                 if (reader.HasRows)
                 {

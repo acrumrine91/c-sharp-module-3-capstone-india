@@ -22,10 +22,11 @@ namespace TenmoServer.Controllers
             this.accountsDAO = accountsDAO;
         }
 
-        [HttpGet]
-        public ActionResult<Account> GetBalance()
+        //put url in account controller
+        [HttpGet("{id}")]
+        public ActionResult<Account> GetAccountBalance (int id)
         {
-            return Ok(this.accountsDAO.GetBalance());
+            foreach (Account user in )
         }
     }
 }

@@ -77,7 +77,7 @@ namespace TenmoClient
                     switch (menuSelection)
                     {
                         case 1:
-                            Get
+                            //get balance method
                             break;
                         case 2:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me

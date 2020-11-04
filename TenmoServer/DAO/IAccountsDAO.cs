@@ -9,8 +9,8 @@ namespace TenmoServer.DAO
     public interface IAccountsDAO 
     {
 
-        Account GetBalanceFromReader();
+        
 
-        Account GetBalance();
+        Account GetBalance(int id);
     }
 }
