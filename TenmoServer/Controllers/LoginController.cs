@@ -4,7 +4,10 @@ using TenmoServer.Models;
 using TenmoServer.Security;
 
 namespace TenmoServer.Controllers
-{
+{ //SHOULD NOT NEED TO MODIFY, EXPECTED TO ADD NEW CONTROLLERS (ADD CONTROLLER API CONTROLLER EMPTY)
+    //NEW DAO, NEW INTERFACE FOR DAO DEPENDENCY INJECTION
+    //USE AUTHORIZE FOR SECURITY
+    
     [Route("[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
