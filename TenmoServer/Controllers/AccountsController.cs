@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TenmoServer.DAO;
@@ -9,7 +10,7 @@ using TenmoServer.Models;
 
 namespace TenmoServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
 
     public class AccountsController : ControllerBase
@@ -24,9 +25,16 @@ namespace TenmoServer.Controllers
 
         //put url in account controller
         [HttpGet("{id}")]
-        public ActionResult<Account> GetAccountBalance (int id)
+        [AllowAnonymous]
+        public ActionResult<Account> GetBalance (int id)
         {
-            foreach (Account user in )
+            Account account = this.accountsDAO.GetBalance(id);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+            return Ok(account);
         }
     }
 }

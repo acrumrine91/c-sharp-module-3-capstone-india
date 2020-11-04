@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using TenmoClient.Data;
 
 namespace TenmoClient.APIClients
 {
@@ -29,9 +30,24 @@ namespace TenmoClient.APIClients
             {
                 this.client.Authenticator = new JwtAuthenticator(token);
             }                
-        }
+        }     
 
-        
+        public API_Account GetBalance()
+        {
+            RestRequest request = new RestRequest($"{BASE_URL}");
 
+            var response = client.Get<API_Account>(request);
+
+            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
+            {
+                return response.Data;
+            }
+            else
+            {
+                Console.WriteLine("An error occured fetching balance");
+
+                return new API_Account();
+            }
+        } 
     }
 }

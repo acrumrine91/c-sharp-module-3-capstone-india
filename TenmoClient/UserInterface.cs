@@ -77,7 +77,7 @@ namespace TenmoClient
                     switch (menuSelection)
                     {
                         case 1:
-                            //get balance method
+                            DisplayBalance();
                             break;
                         case 2:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -119,7 +119,15 @@ namespace TenmoClient
         }
         private void DisplayBalance()
         {
-            
+            API_Account account = accountService.GetBalance();
+            if (account != null)
+            {
+                Console.WriteLine(account);
+            }
+            else
+            {
+                Console.WriteLine("There was no balance available to display.");
+            }
         }
         private void HandleUserLogin()
         {
