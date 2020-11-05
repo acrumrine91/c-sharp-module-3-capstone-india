@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TenmoClient.APIClients;
 using TenmoClient.Data;
 
@@ -77,6 +78,7 @@ namespace TenmoClient
                     switch (menuSelection)
                     {
                         case 1:
+                            Console.Clear();
                             DisplayBalance();
                             break;
                         case 2:
@@ -86,7 +88,8 @@ namespace TenmoClient
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
                         case 4:
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            Console.Clear();
+                            DisplayAllUsers();
                             break;
                         case 5:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -119,16 +122,19 @@ namespace TenmoClient
         }
         private void DisplayBalance()
         {
+
             API_Account account = accountService.GetBalance();
             if (account != null)
             {
-                Console.WriteLine(account);
+                Console.WriteLine("Your account balance is " + account.Balance.ToString("C"));
             }
             else
             {
                 Console.WriteLine("There was no balance available to display.");
             }
         }
+
+       
         private void HandleUserLogin()
         {
             while (!UserService.IsLoggedIn) //will keep looping until user is logged in
@@ -141,6 +147,19 @@ namespace TenmoClient
                     this.accountService.UpdateToken(user.Token);
                     //will put the method to update token into the service class we create
                 }
+            }
+        }
+        private void DisplayAllUsers()
+        {
+
+            Console.Clear();
+            List<API_User> allUsers = this.accountService.GetAllUserAccounts();
+            Console.WriteLine();
+
+            foreach (API_User user in allUsers)
+            {
+                Console.Write(user.UserId);
+                Console.Write(user.Username);
             }
         }
     }

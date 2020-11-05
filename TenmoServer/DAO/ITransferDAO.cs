@@ -6,8 +6,8 @@ using TenmoServer.Models;
 
 namespace TenmoServer.DAO
 {
-    public interface IAccountsDAO 
+    public interface ITransferDAO
     {
-        Account GetBalance(int id);        
+        List<ReturnUser> GetUsersList();
     }
 }
