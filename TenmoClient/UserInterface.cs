@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TenmoClient.APIClients;
 using TenmoClient.Data;
 
@@ -119,15 +120,25 @@ namespace TenmoClient
         }
         private void DisplayBalance()
         {
+
             API_Account account = accountService.GetBalance();
             if (account != null)
             {
-                Console.WriteLine(account);
+                Console.WriteLine("Your account balance is " + account.Balance.ToString("C"));
             }
             else
             {
                 Console.WriteLine("There was no balance available to display.");
             }
+        }
+
+        private void DisplayAllAccounts ()
+        {
+            List<API_Account> accounts = accountService.GetAllAccounts();
+            foreach (API_Account account in accounts)
+            {
+                Console.WriteLine(account);
+                            }
         }
         private void HandleUserLogin()
         {

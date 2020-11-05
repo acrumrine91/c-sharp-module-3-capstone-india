@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TenmoServer.DAO;
 using TenmoServer.Models;
+
 
 namespace TenmoServer.Controllers
 {
@@ -16,18 +20,24 @@ namespace TenmoServer.Controllers
     public class AccountsController : ControllerBase
     {
 
-        private readonly IAccountsDAO accountsDAO;
+        private readonly IAccountDAO accountDAO;
 
-        public AccountsController(IAccountsDAO accountsDAO)
+
+        public AccountsController(IAccountDAO accountDAO)
         {
-            this.accountsDAO = accountsDAO;
+            this.accountDAO = accountDAO;
+
         }
 
-        //put url in account controller
-        [HttpGet("{id}")]
-        public ActionResult<Account> GetBalance (int id)
+        public string userName => User.Identity.Name;
+
+        
+                  
+        [HttpGet("balance")]
+        public ActionResult<Account> GetBalance()
         {
-            Account account = this.accountsDAO.GetBalance(id);
+
+            Account account = this.accountDAO.GetBalance(userName);
 
             if (account == null)
             {
@@ -37,3 +47,5 @@ namespace TenmoServer.Controllers
         }
     }
 }
+
+
