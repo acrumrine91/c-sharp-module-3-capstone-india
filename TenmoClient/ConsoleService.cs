@@ -26,6 +26,20 @@ namespace TenmoClient
             return userId;
         }
 
+        public int PromptForUserIDToTransferTo()
+        {
+            Console.WriteLine("");
+            Console.Write("Please enter the user ID to transfer to (0 to cancel): ");
+
+            if (!int.TryParse(Console.ReadLine(), out int userId))
+            {
+                Console.WriteLine("Invalid input. Only input a number.");
+                return 0;
+            }
+
+            return userId;
+        }
+
 
 
         public LoginUser PromptForLogin()

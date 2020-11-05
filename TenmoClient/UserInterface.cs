@@ -151,7 +151,7 @@ namespace TenmoClient
                 }
             }
         }
-        private void DisplayAllUsers()
+        private Dictionary<int,API_User> DisplayAllUsers()
         {
 
             Console.Clear();
@@ -161,21 +161,25 @@ namespace TenmoClient
 
             foreach (API_User user in allUsers)
             {
-                Console.WriteLine(user.UserId + user.Username);
+                Console.WriteLine(count + ") " + user.Username);
                 usersForDisplay.Add(count, user);
                 count++;
             }
+            return usersForDisplay;
 
         }
 
         private void CreateNewTransfer()
         {
-            int userSendToId = consoleService.PromptForTransferID();
-            decimal amount = consoleService.AmountForTransfer();
-            int userTransferFrom = UserService.UserId;
-            API_Transfer transfer = new API_Transfer(userSendToId,userTransferFrom, amount);
-            transfer = accountService.TransferTEBucks(transfer);
-           
+            Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
+            int userSendToId = consoleService.PromptForUserIDToTransferTo();
+            if (usersForTransfer.ContainsKey(userSendToId))
+            {
+                decimal amount = consoleService.AmountForTransfer();
+                int userTransferFrom = UserService.UserId;
+                API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
+                transfer = accountService.TransferTEBucks(transfer);
+            }
         }
 
 
