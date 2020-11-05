@@ -31,7 +31,7 @@ namespace TenmoClient.APIClients
                 this.client.Authenticator = new JwtAuthenticator(token);
             }                
         }
-        public List<API_Account> GetAllAccounts()
+        public List<API_Account> GetAllUserAccounts()
         {
             RestRequest request = new RestRequest(BASE_URL);
 

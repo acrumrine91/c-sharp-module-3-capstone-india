@@ -78,6 +78,7 @@ namespace TenmoClient
                     switch (menuSelection)
                     {
                         case 1:
+                            Console.Clear();
                             DisplayBalance();
                             break;
                         case 2:
@@ -132,14 +133,7 @@ namespace TenmoClient
             }
         }
 
-        private void DisplayAllAccounts ()
-        {
-            List<API_Account> accounts = accountService.GetAllAccounts();
-            foreach (API_Account account in accounts)
-            {
-                Console.WriteLine(account);
-                            }
-        }
+       
         private void HandleUserLogin()
         {
             while (!UserService.IsLoggedIn) //will keep looping until user is logged in

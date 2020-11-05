@@ -19,13 +19,14 @@ namespace TenmoServer.Controllers
     [Authorize]
     public class AccountsController : ControllerBase
     {
-
+        private readonly ITransferDAO transferDAO;
         private readonly IAccountDAO accountDAO;
 
 
-        public AccountsController(IAccountDAO accountDAO)
+        public AccountsController(IAccountDAO accountDAO, ITransferDAO transferDAO)
         {
             this.accountDAO = accountDAO;
+            this.transferDAO = transferDAO;
 
         }
 
@@ -44,6 +45,20 @@ namespace TenmoServer.Controllers
                 return NotFound();
             }
             return Ok(account);
+        }
+
+        [HttpPost("transfers")]
+        public ActionResult<Transfer> TransferToUser(Transfer transfer)
+        {
+            Account account = accountDAO.GetBalance(userName);
+            
+            Transfer transferAttempt;
+
+            if (account.Balance >= transfer.Amount)
+            {
+                transferAttempt = transferDAO.//TransferMethod(transfer);
+
+            }
         }
     }
 }
