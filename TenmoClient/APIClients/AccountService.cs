@@ -31,11 +31,11 @@ namespace TenmoClient.APIClients
                 this.client.Authenticator = new JwtAuthenticator(token);
             }                
         }
-        public List<API_Account> GetAllUserAccounts()
+        public List<API_User> GetAllUserAccounts()
         {
-            RestRequest request = new RestRequest(BASE_URL);
+            RestRequest request = new RestRequest(BASE_URL + "/transfer");
 
-            var response = client.Get<List<API_Account>>(request);  //var is same as IRestResponse<List<API_Questions>> response
+            IRestResponse<List<API_User>> response = client.Get<List<API_User>>(request);
 
             if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
             {
@@ -43,9 +43,9 @@ namespace TenmoClient.APIClients
             }
             else
             {
-                Console.WriteLine("An error occurred fetching questions");
+                Console.WriteLine("An error occured getting all users.");
 
-                return new List<API_Account>();
+                return new List<API_User>();
             }
         }
 

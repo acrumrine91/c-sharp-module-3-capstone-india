@@ -41,7 +41,10 @@ namespace TenmoServer.DAO
         {
             ReturnUser user = new ReturnUser();
 
-            user.UserId = Convert.ToInt32(reader[])
+            user.UserId = Convert.ToInt32(reader["user_id"]);
+            user.Username = Convert.ToString(reader["username"]);
+
+            return user;
         }
 
     }

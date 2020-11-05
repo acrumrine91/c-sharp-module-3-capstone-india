@@ -32,8 +32,8 @@ namespace TenmoServer.Controllers
 
         public string userName => User.Identity.Name;
 
-        
-                  
+
+
         [HttpGet("balance")]
         public ActionResult<Account> GetBalance()
         {
@@ -47,20 +47,15 @@ namespace TenmoServer.Controllers
             return Ok(account);
         }
 
-        [HttpPost("transfers")]
-        public ActionResult<Transfer> TransferToUser(Transfer transfer)
+        [HttpGet("transfer")]
+        public ActionResult<List<ReturnUser>> GetAllUsers()
         {
-            Account account = accountDAO.GetBalance(userName);
-            
-            Transfer transferAttempt;
-
-            if (account.Balance >= transfer.Amount)
-            {
-                transferAttempt = transferDAO.//TransferMethod(transfer);
-
-            }
+            return Ok(this.transferDAO.GetUsersList());
         }
+
     }
 }
+
+
 
 

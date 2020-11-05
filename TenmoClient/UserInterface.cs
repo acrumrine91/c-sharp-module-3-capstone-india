@@ -88,7 +88,8 @@ namespace TenmoClient
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
                         case 4:
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            Console.Clear();
+                            DisplayAllUsers();
                             break;
                         case 5:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -146,6 +147,19 @@ namespace TenmoClient
                     this.accountService.UpdateToken(user.Token);
                     //will put the method to update token into the service class we create
                 }
+            }
+        }
+        private void DisplayAllUsers()
+        {
+
+            Console.Clear();
+            List<API_User> allUsers = this.accountService.GetAllUserAccounts();
+            Console.WriteLine();
+
+            foreach (API_User user in allUsers)
+            {
+                Console.Write(user.UserId);
+                Console.Write(user.Username);
             }
         }
     }
