@@ -30,13 +30,31 @@ namespace TenmoClient.APIClients
             {
                 this.client.Authenticator = new JwtAuthenticator(token);
             }                
-        }     
+        }
+
+        public List<API_Account> GetAllAccounts()
+        {
+            RestRequest request = new RestRequest(BASE_URL);
+
+            IRestResponse<List<API_Account>> response = client.Get<List<API_Account>>(request);
+
+            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
+            {
+                return response.Data;
+            }
+            else
+            {
+                Console.WriteLine("An error occurred fetching questions");
+
+                return new List<API_Account>();
+            }
+        }
 
         public API_Account GetBalance()
         {
-            RestRequest request = new RestRequest(BASE_URL + "/id");
+            RestRequest request = new RestRequest(BASE_URL + "/1");
 
-            IRestResponse<API_Account> response = client.Get<API_Account>(request);
+            var response = client.Get<API_Account>(request);
 
             if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
             {

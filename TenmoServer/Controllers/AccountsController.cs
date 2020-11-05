@@ -25,6 +25,7 @@ namespace TenmoServer.Controllers
 
         //put url in account controller
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<Account> GetBalance (int id)
         {
             Account account = this.accountsDAO.GetBalance(id);
