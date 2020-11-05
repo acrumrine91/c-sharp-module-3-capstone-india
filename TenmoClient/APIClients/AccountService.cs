@@ -2,9 +2,11 @@
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text;
 using TenmoClient.Data;
+
 
 namespace TenmoClient.APIClients
 {
@@ -68,5 +70,13 @@ namespace TenmoClient.APIClients
                 return null;
             }
         } 
+
+        public API_Transfer TransferTEBucks(API_Transfer transfer)
+        {
+            RestRequest request = new RestRequest(BASE_URL + "/transfer");
+            request.AddJsonBody(transfer);
+            IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);
+            return response.Data;
+        }
     }
 }

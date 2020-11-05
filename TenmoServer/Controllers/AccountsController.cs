@@ -53,6 +53,22 @@ namespace TenmoServer.Controllers
             return Ok(this.transferDAO.GetUsersList());
         }
 
+        [HttpPost("transfer")]
+        public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
+        {
+            Account account = this.accountDAO.GetBalance(userName);
+            Transfer transferAttempt;
+
+            if (account.Balance >= transfer.Amount)
+            {
+                transferAttempt = transferDAO.ExecuteTransfer(transfer);
+                transferDAO.BeginTransfer(transferAttempt);
+
+                return Ok(transferAttempt);
+            }
+
+            return BadRequest();
+        }
     }
 }
 

@@ -90,6 +90,7 @@ namespace TenmoClient
                         case 4:
                             Console.Clear();
                             DisplayAllUsers();
+                            CreateNewTransfer();
                             break;
                         case 5:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -97,7 +98,8 @@ namespace TenmoClient
                         case 6:
                             Console.WriteLine();
                             UserService.SetLogin(new API_User()); //wipe out previous login info
-                            return;
+                            HandleUserLogin();
+                            break;
                         default:
                             Console.WriteLine("Goodbye!");
                             shouldExit = true;
@@ -162,5 +164,18 @@ namespace TenmoClient
                 Console.Write(user.Username);
             }
         }
+
+        private void CreateNewTransfer()
+        {
+            
+            API_Transfer transfer = this.consoleService.PromptForTransferInformation();
+
+            if (this.accountService.TransferTEBucks(transfer) != null)
+            {
+                Console.WriteLine("TransferComplete");
+            }
+        }
+
+
     }
 }

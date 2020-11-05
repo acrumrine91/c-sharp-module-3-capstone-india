@@ -9,5 +9,11 @@ namespace TenmoServer.DAO
     public interface ITransferDAO
     {
         List<ReturnUser> GetUsersList();
+
+        void BeginTransfer(Transfer transfer);
+
+        Transfer ExecuteTransfer(Transfer newTransfer);
+
+
     }
 }
