@@ -136,7 +136,7 @@ namespace TenmoClient
             }
         }
 
-       
+
         private void HandleUserLogin()
         {
             while (!UserService.IsLoggedIn) //will keep looping until user is logged in
@@ -156,24 +156,26 @@ namespace TenmoClient
 
             Console.Clear();
             List<API_User> allUsers = this.accountService.GetAllUserAccounts();
-            Console.WriteLine();
+            Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
+            int count = 1;
 
             foreach (API_User user in allUsers)
             {
-                Console.Write(user.UserId);
-                Console.Write(user.Username);
+                Console.WriteLine(user.UserId + user.Username);
+                usersForDisplay.Add(count, user);
+                count++;
             }
+
         }
 
         private void CreateNewTransfer()
         {
-            
-            API_Transfer transfer = this.consoleService.PromptForTransferInformation();
-
-            if (this.accountService.TransferTEBucks(transfer) != null)
-            {
-                Console.WriteLine("TransferComplete");
-            }
+            int userSendToId = consoleService.PromptForTransferID();
+            decimal amount = consoleService.AmountForTransfer();
+            int userTransferFrom = UserService.UserId;
+            API_Transfer transfer = new API_Transfer(userSendToId,userTransferFrom, amount);
+            transfer = accountService.TransferTEBucks(transfer);
+           
         }
 
 

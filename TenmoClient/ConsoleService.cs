@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Transactions;
 using TenmoClient.Data;
 
 namespace TenmoClient
@@ -11,52 +12,21 @@ namespace TenmoClient
         /// </summary>
         /// <param name="action">String to print in prompt. Expected values are "Approve" or "Reject" or "View"</param>
         /// <returns>ID of transfers to view, approve, or reject</returns>
-        public int PromptForTransferID(string action)
+        public int PromptForTransferID(/*string action*/)
         {
             Console.WriteLine("");
-            Console.Write($"Please enter transfer ID to {action} (0 to cancel): ");
+            Console.Write($"Please enter transfer ID to action (0 to cancel): ");
 
-            if (!int.TryParse(Console.ReadLine(), out int auctionId))
+            if (!int.TryParse(Console.ReadLine(), out int userId))
             {
                 Console.WriteLine("Invalid input. Only input a number.");
                 return 0;
             }
 
-            return auctionId;
+            return userId;
         }
 
-        public API_Account PromptForUserIDForTransfer(string action)
-        {
-            Console.WriteLine("");
-            Console.Write($"Please enter user ID to {action} (0 to cancel): ");
 
-            if (!int.TryParse(Console.ReadLine(), out int userId))
-            {
-                Console.WriteLine("Invalid input. Only input a number.");
-                
-            }
-            return new API_Account()
-            {
-                UserID = userId
-
-            };
-
-        }
-
-        public API_Transfer PromptForTransferInformation()
-        {
-            Console.WriteLine("What user would you like to send money to?");
-            int userId = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("How much would you like to send?");
-            decimal amount = Convert.ToDecimal(Console.ReadLine());
-
-            return new API_Transfer()
-            {
-                AccountTo = userId,
-                Amount = amount,
-            };
-        }
 
         public LoginUser PromptForLogin()
         {
@@ -104,7 +74,21 @@ namespace TenmoClient
             return pass;
         }
 
+        public decimal AmountForTransfer()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Enter amount : ");
+            if (!decimal.TryParse(Console.ReadLine(), out decimal amount))
+            {
+                Console.WriteLine("Invalid input. Only input a number.");
+                return 0;
+            }
 
+            return amount;
+        }
 
     }
+
+
+
 }

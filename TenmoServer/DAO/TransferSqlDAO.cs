@@ -45,12 +45,12 @@ namespace TenmoServer.DAO
                 conn.Open();
 
                 SqlCommand cmdSend = new SqlCommand("UPDATE accounts SET balance = balance - @amountfrom WHERE user_id = @amountfromUser;", conn);
-                cmdSend.Parameters.AddWithValue("@amountfrom", transfer.AccountFrom);
+                cmdSend.Parameters.AddWithValue("@amountfrom", transfer.Amount);
                 cmdSend.Parameters.AddWithValue("@amountfromUser", transfer.AccountFrom.UserId);
                 cmdSend.ExecuteNonQuery();
 
                 SqlCommand cmdReceive = new SqlCommand("UPDATE accounts SET balance = balance + @amountto WHERE user_id = @amounttoUser;", conn);
-                cmdReceive.Parameters.AddWithValue("@amountfrom", transfer.AccountFrom);
+                cmdReceive.Parameters.AddWithValue("@amountfrom", transfer.Amount);
                 cmdReceive.Parameters.AddWithValue("@amountfromUser", transfer.AccountFrom.UserId);
                 cmdReceive.ExecuteNonQuery();
 
