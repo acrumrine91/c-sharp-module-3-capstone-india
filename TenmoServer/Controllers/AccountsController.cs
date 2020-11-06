@@ -21,30 +21,16 @@ namespace TenmoServer.Controllers
     {
         private readonly ITransferDAO transferDAO;
         private readonly IAccountDAO accountDAO;
-
-
         public AccountsController(IAccountDAO accountDAO, ITransferDAO transferDAO)
         {
             this.accountDAO = accountDAO;
             this.transferDAO = transferDAO;
-
         }
-
-<<<<<<< HEAD
-        //put url in account controller
-        [HttpGet("{id}")]
-        [AllowAnonymous]
-        public ActionResult<Account> GetBalance (int id)
-=======
         public string userName => User.Identity.Name;
-
-
 
         [HttpGet("balance")]
         public ActionResult<Account> GetBalance()
->>>>>>> 4e26e611b43ad31dd5391d339e42f3fe1a9458d5
         {
-
             Account account = this.accountDAO.GetBalance(userName);
 
             if (account == null)
@@ -53,13 +39,11 @@ namespace TenmoServer.Controllers
             }
             return Ok(account);
         }
-
         [HttpGet("transfer")]
         public ActionResult<List<ReturnUser>> GetAllUsers()
         {
             return Ok(this.transferDAO.GetUsersList());
         }
-
     }
 }
 
