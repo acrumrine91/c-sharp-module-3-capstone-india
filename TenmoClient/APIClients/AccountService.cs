@@ -76,7 +76,7 @@ namespace TenmoClient.APIClients
 
         public API_Transfer TransferTEBucks(API_Transfer transfer)
         {
-            transfer = new API_Transfer();
+            
             RestRequest request = new RestRequest(BASE_URL + "/transfer");
             request.AddJsonBody(transfer);
             IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);

@@ -18,26 +18,7 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public List<ReturnUser> GetUsersList()
-        {
-            List<ReturnUser> users = new List<ReturnUser>();
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT * From users", conn);
-
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    ReturnUser user = GetReturnUserFromReader(reader);
-                    users.Add(user);
-                }
-            }
-            return users;
-        }
+       
 
         public void BeginTransfer(Transfer transfer)
         {
@@ -52,7 +33,7 @@ namespace TenmoServer.DAO
 
                 SqlCommand cmdReceive = new SqlCommand("UPDATE accounts SET balance = balance + @amountReceived WHERE user_id = @Receipient;", conn);
                 cmdReceive.Parameters.AddWithValue("@amountReceived", transfer.Amount);
-                cmdReceive.Parameters.AddWithValue("@Receipient", transfer.AccountTo);
+                cmdReceive.Parameters.AddWithValue("@Receipient", transfer.AccountTo.UserId);
                 cmdReceive.ExecuteNonQuery();
 
             }
@@ -64,7 +45,7 @@ namespace TenmoServer.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (@transferTypeID, @transferStatusID, @accountFromUser, @accountToUser, @amount); SELECT SCOPE_IDENTITY();", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO transfers VALUES (@transferTypeID, @transferStatusID, @accountFromUser, @accountToUser, @amount); SELECT SCOPE_IDENTITY();", conn);
                 cmd.Parameters.AddWithValue("@transferTypeID", newTransfer.TransferType);
                 cmd.Parameters.AddWithValue("@transferStatusID", newTransfer.TransferStatus);
                 cmd.Parameters.AddWithValue("@accountFromUser", newTransfer.AccountFrom.UserId);
@@ -86,15 +67,7 @@ namespace TenmoServer.DAO
         }
 
 
-        private ReturnUser GetReturnUserFromReader(SqlDataReader reader)
-        {
-            ReturnUser user = new ReturnUser();
-
-            user.UserId = Convert.ToInt32(reader["user_id"]);
-            user.Username = Convert.ToString(reader["username"]);
-
-            return user;
-        }
+      
 
     }
 }
