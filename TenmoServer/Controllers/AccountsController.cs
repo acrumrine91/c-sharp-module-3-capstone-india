@@ -21,16 +21,23 @@ namespace TenmoServer.Controllers
     {
         private readonly ITransferDAO transferDAO;
         private readonly IAccountDAO accountDAO;
+
+
         public AccountsController(IAccountDAO accountDAO, ITransferDAO transferDAO)
         {
             this.accountDAO = accountDAO;
             this.transferDAO = transferDAO;
+
         }
+
         public string userName => User.Identity.Name;
+
+
 
         [HttpGet("balance")]
         public ActionResult<Account> GetBalance()
         {
+
             Account account = this.accountDAO.GetBalance(userName);
 
             if (account == null)
@@ -39,10 +46,28 @@ namespace TenmoServer.Controllers
             }
             return Ok(account);
         }
+
         [HttpGet("transfer")]
         public ActionResult<List<ReturnUser>> GetAllUsers()
         {
             return Ok(this.transferDAO.GetUsersList());
+        }
+
+        [HttpPost("transfer")]
+        public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
+        {
+            Account account = this.accountDAO.GetBalance(userName);
+            Transfer transferAttempt;
+
+            if (account.Balance >= transfer.Amount)
+            {
+                transferAttempt = transferDAO.ExecuteTransfer(transfer);
+                transferDAO.BeginTransfer(transferAttempt);
+
+                return Ok(transferAttempt);
+            }
+
+            return BadRequest();
         }
     }
 }

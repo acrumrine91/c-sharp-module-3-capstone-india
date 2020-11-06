@@ -90,6 +90,7 @@ namespace TenmoClient
                         case 4:
                             Console.Clear();
                             DisplayAllUsers();
+                            CreateNewTransfer();
                             break;
                         case 5:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -97,7 +98,8 @@ namespace TenmoClient
                         case 6:
                             Console.WriteLine();
                             UserService.SetLogin(new API_User()); //wipe out previous login info
-                            return;
+                            HandleUserLogin();
+                            break;
                         default:
                             Console.WriteLine("Goodbye!");
                             shouldExit = true;
@@ -134,7 +136,7 @@ namespace TenmoClient
             }
         }
 
-       
+
         private void HandleUserLogin()
         {
             while (!UserService.IsLoggedIn) //will keep looping until user is logged in
@@ -149,18 +151,37 @@ namespace TenmoClient
                 }
             }
         }
-        private void DisplayAllUsers()
+        private Dictionary<int,API_User> DisplayAllUsers()
         {
 
             Console.Clear();
             List<API_User> allUsers = this.accountService.GetAllUserAccounts();
-            Console.WriteLine();
+            Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
+            int count = 1;
 
             foreach (API_User user in allUsers)
             {
-                Console.Write(user.UserId);
-                Console.Write(user.Username);
+                Console.WriteLine(count + ") " + user.Username);
+                usersForDisplay.Add(count, user);
+                count++;
+            }
+            return usersForDisplay;
+
+        }
+
+        private void CreateNewTransfer()
+        {
+            Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
+            int userSendToId = consoleService.PromptForUserIDToTransferTo();
+            if (usersForTransfer.ContainsKey(userSendToId))
+            {
+                decimal amount = consoleService.AmountForTransfer();
+                int userTransferFrom = UserService.UserId;
+                API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
+                transfer = accountService.TransferTEBucks(transfer);
             }
         }
+
+
     }
 }
