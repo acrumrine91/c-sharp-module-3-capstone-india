@@ -159,9 +159,14 @@ namespace TenmoClient
             Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
             int count = 1;
 
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("Users");
+            Console.WriteLine("ID\t\tName");
+            Console.WriteLine("-------------------------------------------");
+
             foreach (API_User user in allUsers)
             {
-                Console.WriteLine(count + "   " + user.Username);
+                Console.WriteLine(count + "\t\t" + user.Username);
                 usersForDisplay.Add(count, user);
                 count++;
             }
@@ -176,18 +181,18 @@ namespace TenmoClient
             if (usersForTransfer.ContainsKey(userSendToId))
             {
                 decimal amount = consoleService.AmountForTransfer();
-                //int userTransferFrom = UserService.UserId;
-                //API_Transfer transfer = new API_Transfer(userSendToId/*, userTransferFrom*/, amount);
-                //transfer = accountService.TransferTEBucks(transfer);
-                bool transferResult = accountService.TransferTEBucks(userSendToId, amount);
-                if (transferResult)
-                {
-                    Console.WriteLine("Transfer Successful");
-                }
-                else
-                {
-                    Console.WriteLine("Transfer Failed");
-                }
+                int userTransferFrom = UserService.UserId;
+                API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
+                transfer = accountService.TransferTEBucks(transfer);
+                //bool transferResult = accountService.TransferTEBucks(transfer);
+                //if (transferResult)
+                //{
+                //    Console.WriteLine("Transfer Successful");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("Transfer Failed");
+                //}
             }
         }
 
