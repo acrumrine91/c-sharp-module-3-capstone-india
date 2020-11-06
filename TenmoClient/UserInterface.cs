@@ -90,7 +90,7 @@ namespace TenmoClient
                         case 4:
                             Console.Clear();
                             DisplayAllUsers();
-                            CreateNewTransfer();
+                            PromptAndAddNewTransfer();
                             break;
                         case 5:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -173,7 +173,15 @@ namespace TenmoClient
             return usersForDisplay;
 
         }
+        private void PromptAndAddNewTransfer()
+        {
+            API_Transfer transfer = this.consoleService.PromptForTransfer();
 
+            if (this.accountService.TransferTEBucks(transfer) != null)
+            {
+                Console.WriteLine("Transfer Successful");
+            }
+        }
         private void CreateNewTransfer()
         {
             Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
@@ -182,26 +190,18 @@ namespace TenmoClient
             {
                 decimal amount = consoleService.AmountForTransfer();
                 int userTransferFrom = UserService.UserId;
-<<<<<<< HEAD
+
 
                 API_Transfer transfer = new API_Transfer();
-            
+
                 transfer.AccountFrom = userTransferFrom;
                 transfer.AccountTo = userSendToId;
                 transfer.Amount = amount;
                 accountService.TransferTEBucks(transfer);
-                               
 
-                //API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
-                //transfer = accountService.TransferTEBucks(transfer);
 
-=======
-                API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
-                API_Transfer transferResult = accountService.TransferTEBucks(transfer);
->>>>>>> f50360c81d9bab0729a6aa8f0cdf8683acb89511
             }
         }
-
 
     }
 }

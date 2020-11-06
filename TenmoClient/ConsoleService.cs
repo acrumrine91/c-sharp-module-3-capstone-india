@@ -26,6 +26,21 @@ namespace TenmoClient
             return userId;
         }
 
+        public API_Transfer PromptForTransfer()
+        {
+            Console.WriteLine("What is your question's text?");
+            int userId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("What is your question's answer?");
+            decimal amount = Convert.ToDecimal(Console.ReadLine());
+
+            return new API_Transfer()
+            {
+                AccountTo = userId,
+                Amount = amount,
+            };
+        }
+
         public int PromptForUserIDToTransferTo()
         {
             Console.WriteLine("");

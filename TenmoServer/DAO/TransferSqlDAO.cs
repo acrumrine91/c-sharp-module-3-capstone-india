@@ -18,56 +18,76 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-       
-
-        public void BeginTransfer(Transfer transfer)
+        public Transfer AddTransfer(Transfer transfer)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
+                SqlCommand command = new SqlCommand("INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (@type, @status, @from, @to, @amount)", conn);
+                command.Parameters.AddWithValue("@type", transfer.TransferType);
+                command.Parameters.AddWithValue("@status", transfer.TransferStatus);
+                command.Parameters.AddWithValue("@from", transfer.AccountFrom);
+                command.Parameters.AddWithValue("@to", transfer.AccountTo);
+                command.Parameters.AddWithValue("@amount", transfer.Amount);
+                command.ExecuteNonQuery();
 
-                SqlCommand cmdSend = new SqlCommand("UPDATE accounts SET balance = balance - @amountSent WHERE user_id = @Sender;", conn);
-                cmdSend.Parameters.AddWithValue("@amountSent", transfer.Amount);
-                cmdSend.Parameters.AddWithValue("@Sender", transfer.AccountFrom.UserId);
-                cmdSend.ExecuteNonQuery();
-
-                SqlCommand cmdReceive = new SqlCommand("UPDATE accounts SET balance = balance + @amountReceived WHERE user_id = @Receipient;", conn);
-                cmdReceive.Parameters.AddWithValue("@amountReceived", transfer.Amount);
-                cmdReceive.Parameters.AddWithValue("@Receipient", transfer.AccountTo.UserId);
-                cmdReceive.ExecuteNonQuery();
-
-            }
-
-        }
-        public Transfer ExecuteTransfer(Transfer newTransfer)
-        {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-
-                SqlCommand cmd = new SqlCommand("INSERT INTO transfers VALUES (@transferTypeID, @transferStatusID, @accountFromUser, @accountToUser, @amount); SELECT SCOPE_IDENTITY();", conn);
-                cmd.Parameters.AddWithValue("@transferTypeID", newTransfer.TransferType);
-                cmd.Parameters.AddWithValue("@transferStatusID", newTransfer.TransferStatus);
-                cmd.Parameters.AddWithValue("@accountFromUser", newTransfer.AccountFrom.UserId);
-                cmd.Parameters.AddWithValue("@accountToUser", newTransfer.AccountTo);
-                cmd.Parameters.AddWithValue("@amount", newTransfer.Amount);
-
-                int id = Convert.ToInt32(cmd.ExecuteScalar());
-                return new Transfer
-                {
-                    TransferID = id,
-                    TransferType = newTransfer.TransferType,
-                    TransferStatus = newTransfer.TransferStatus,
-                    AccountFrom = newTransfer.AccountFrom,
-                    AccountTo = newTransfer.AccountTo,
-                    Amount = newTransfer.Amount,
-                };
+                command = new SqlCommand("SELECT @@IDENTITY", conn);
+                transfer.TransferID = Convert.ToInt32(command.ExecuteScalar());
 
             }
+            return transfer;
+
+            //public void Transfer(Transfer transfer)
+            //{
+            //    using (SqlConnection conn = new SqlConnection(connectionString))
+            //    {
+            //        conn.Open();
+
+            //        SqlCommand cmdSend = new SqlCommand("UPDATE accounts SET balance = balance - @amountSent WHERE user_id = @Sender;", conn);
+            //        cmdSend.Parameters.AddWithValue("@amountSent", transfer.Amount);
+            //        cmdSend.Parameters.AddWithValue("@Sender", transfer.AccountFrom.UserId);
+            //        cmdSend.ExecuteNonQuery();
+
+            //        SqlCommand cmdReceive = new SqlCommand("UPDATE accounts SET balance = balance + @amountReceived WHERE user_id = @Receipient;", conn);
+            //        cmdReceive.Parameters.AddWithValue("@amountReceived", transfer.Amount);
+            //        cmdReceive.Parameters.AddWithValue("@Receipient", transfer.AccountTo.UserId);
+            //        cmdReceive.ExecuteNonQuery();
+
+            //        SqlCommand cmd = new SqlCommand("INSERT INTO transfers VALUES (@transferTypeID, @transferStatusID, @accountFromUser, @accountToUser, @amount); SELECT SCOPE_IDENTITY();", conn);
+            //        cmd.Parameters.AddWithValue("@transferTypeID", transfer.TransferType);
+            //        cmd.Parameters.AddWithValue("@transferStatusID", transfer.TransferStatus);
+            //        cmd.Parameters.AddWithValue("@accountFromUser", transfer.AccountFrom.UserId);
+            //        cmd.Parameters.AddWithValue("@accountToUser", transfer.AccountTo);
+            //        cmd.Parameters.AddWithValue("@amount", transfer.Amount);
+
+            //        int id = Convert.ToInt32(cmd.ExecuteScalar());
+            //        return new Transfer
+            //        {
+            //            TransferID = id,
+            //            TransferType = transfer.TransferType,
+            //            TransferStatus = transfer.TransferStatus,
+            //            AccountFrom = transfer.AccountFrom,
+            //            AccountTo = transfer.AccountTo,
+            //            Amount = transfer.Amount,
+            //        };
+
+            //    }
+
+            //}
+            //public Transfer ExecuteTransfer(Transfer newTransfer)
+            //{
+            //    using (SqlConnection conn = new SqlConnection(connectionString))
+            //    {
+            //        conn.Open();
+
+
+
+            //    }
+            //}
+
+
+
+
         }
-
-
-      
-
     }
 }

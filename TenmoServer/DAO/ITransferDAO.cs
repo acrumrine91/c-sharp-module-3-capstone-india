@@ -8,11 +8,9 @@ namespace TenmoServer.DAO
 {
     public interface ITransferDAO
     {
-        
+        Transfer AddTransfer(Transfer transfer);
 
-        void BeginTransfer(Transfer transfer);
-
-        Transfer ExecuteTransfer(Transfer newTransfer);
+       
 
 
     }
