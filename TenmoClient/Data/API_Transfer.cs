@@ -18,11 +18,11 @@ namespace TenmoClient.Data
 
         }
         
-        public int TransferID { get; set; }
+        //public int TransferID { get; set; }
 
-        public int TransferType { get; set; }
+        //public int TransferType { get; set; }
 
-        public int TransferStatus { get; set; }
+        //public int TransferStatus { get; set; }
 
         public decimal Amount { get; set; }
 
