@@ -21,12 +21,14 @@ namespace TenmoServer.Controllers
     {
         private readonly ITransferDAO transferDAO;
         private readonly IAccountDAO accountDAO;
+        private readonly IUserDAO userDAO;
 
 
-        public AccountsController(IAccountDAO accountDAO, ITransferDAO transferDAO)
+        public AccountsController(IAccountDAO accountDAO, ITransferDAO transferDAO, IUserDAO userDAO)
         {
             this.accountDAO = accountDAO;
             this.transferDAO = transferDAO;
+            this.userDAO = userDAO;
 
         }
 
@@ -48,16 +50,17 @@ namespace TenmoServer.Controllers
         }
 
         [HttpGet("transfer")]
-        public ActionResult<List<ReturnUser>> GetAllUsers()
+        public ActionResult<List<User>> GetAllUsers()
         {
-            return Ok(this.transferDAO.GetUsersList());
+            
+            return Ok(this.userDAO.GetUsers());
         }
 
         [HttpPost("transfer")]
         public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
         {
             Account account = this.accountDAO.GetBalance(userName);
-            Transfer transferAttempt;
+            Transfer transferAttempt = new Transfer();
 
             if (userName == transfer.AccountTo.Username)
             {
