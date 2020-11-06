@@ -128,7 +128,7 @@ namespace TenmoClient
             API_Account account = accountService.GetBalance();
             if (account != null)
             {
-                Console.WriteLine("Your account balance is " + account.Balance.ToString("C"));
+                Console.WriteLine("Your account balance is: " + account.Balance.ToString("C"));
             }
             else
             {
@@ -159,9 +159,14 @@ namespace TenmoClient
             Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
             int count = 1;
 
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("Users");
+            Console.WriteLine("ID\t\tName");
+            Console.WriteLine("-------------------------------------------");
+
             foreach (API_User user in allUsers)
             {
-                Console.WriteLine(count + "   " + user.Username);
+                Console.WriteLine(count + "\t\t" + user.Username);
                 usersForDisplay.Add(count, user);
                 count++;
             }
@@ -177,6 +182,7 @@ namespace TenmoClient
             {
                 decimal amount = consoleService.AmountForTransfer();
                 int userTransferFrom = UserService.UserId;
+<<<<<<< HEAD
                 API_Transfer transfer = new API_Transfer();
                 transfer.TransferStatus = 1;
                 transfer.TransferType = 1;
@@ -185,6 +191,10 @@ namespace TenmoClient
                 transfer.Amount = amount;
                 API_Transfer newTransfer = accountService.TransferTEBucks(transfer);
                                
+=======
+                API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
+                transfer = accountService.TransferTEBucks(transfer);
+>>>>>>> 46dcd8a8f89fb2d0f56b3265e48cf7309688a8b8
             }
         }
 
