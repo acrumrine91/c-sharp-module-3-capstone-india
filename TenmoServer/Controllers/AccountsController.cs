@@ -48,9 +48,9 @@ namespace TenmoServer.Controllers
         }
 
         [HttpGet("transfer")]
-        public ActionResult<List<ReturnUser>> GetAllUsers()
+        public ActionResult<List<ReturnUser>> GetAllUsers(string userName)
         {
-            return Ok(this.transferDAO.GetUsersList());
+            return Ok(this.transferDAO.GetUsersList(userName));
         }
 
         [HttpPost("transfer")]
