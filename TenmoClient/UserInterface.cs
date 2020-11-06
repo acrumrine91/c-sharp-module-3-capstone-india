@@ -128,7 +128,7 @@ namespace TenmoClient
             API_Account account = accountService.GetBalance();
             if (account != null)
             {
-                Console.WriteLine("Your account balance is " + account.Balance.ToString("C"));
+                Console.WriteLine("Your account balance is: " + account.Balance.ToString("C"));
             }
             else
             {
@@ -184,15 +184,6 @@ namespace TenmoClient
                 int userTransferFrom = UserService.UserId;
                 API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
                 transfer = accountService.TransferTEBucks(transfer);
-                //bool transferResult = accountService.TransferTEBucks(transfer);
-                //if (transferResult)
-                //{
-                //    Console.WriteLine("Transfer Successful");
-                //}
-                //else
-                //{
-                //    Console.WriteLine("Transfer Failed");
-                //}
             }
         }
 
