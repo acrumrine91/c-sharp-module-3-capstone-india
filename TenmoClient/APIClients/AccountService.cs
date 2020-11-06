@@ -14,7 +14,7 @@ namespace TenmoClient.APIClients
     {
         private readonly string BASE_URL;
         private readonly RestClient client;
-        private string token;
+        
 
         public AccountService()
         {
@@ -22,7 +22,7 @@ namespace TenmoClient.APIClients
 
             this.client = new RestClient();
 
-            token = UserService.
+            
         }
 
         public void UpdateToken(string token)
@@ -82,16 +82,6 @@ namespace TenmoClient.APIClients
             return response.Data;
         }
 
-        public bool TransferTEBucks(int userId, decimal amount)
-        {
-            API_Transfer transfer = new API_Transfer();
-            transfer.AccountTo = userId;
-            transfer.Amount = amount;
-            RestRequest request = new RestRequest(BASE_URL + "/transfer");
-            request.AddJsonBody(transfer);
-            IRestResponse<bool> response = client.Post<bool>(request);
-            return response.Data;
-
-        }
+     
     }
 }

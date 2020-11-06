@@ -24,38 +24,38 @@ namespace TenmoServer.Controllers
             this.userDAO = userDAO;
         }
 
-        [HttpPost("transferfunds")]
-        public ActionResult<bool> SendTransfer(TransferController transfer)
-        {
-            bool successful = false;
+        //[HttpPost("transferfunds")]
+        //public ActionResult<bool> SendTransfer(TransferController transfer)
+        //{
+        //    bool successful = false;
 
-            int transferFrom = -1;
+        //    int transferFrom = -1;
 
-            foreach (var claim in User.Claims)
-            {
-                if (claim.Type == "sub")
-                {
-                    transferFrom = int.Parse(claim.Value);
-                    break;
-                }
-            }
+        //    foreach (var claim in User.Claims)
+        //    {
+        //        if (claim.Type == "sub")
+        //        {
+        //            transferFrom = int.Parse(claim.Value);
+        //            break;
+        //        }
+        //    }
 
-            decimal sendingAccount = accountDAO.GetBalance(transferFrom);
-            if (sendingAccount >= transfer.Amount)
-            {
-                try
-                {
-                    accountDAO.MoveFundsFrom(transferFrom, transfer.Amount);
-                    accountDAO.MoveFundsTo(transfer.TransferTo, transfer.Amount);
-                    transferDAO.AddSendTransfer(transfer.TransferTo, transferFrom, transfer.Amount);
-                    successful = true;
-                }
-                catch (Exception ex)
-                {
-                    return successful;
-                }
-            }
-            return successful;
-        }
+        //    decimal sendingAccount = accountDAO.GetBalance(transferFrom);
+        //    if (sendingAccount >= transfer.Amount)
+        //    {
+        //        try
+        //        {
+        //            accountDAO.MoveFundsFrom(transferFrom, transfer.Amount);
+        //            accountDAO.MoveFundsTo(transfer.TransferTo, transfer.Amount);
+        //            transferDAO.AddSendTransfer(transfer.TransferTo, transferFrom, transfer.Amount);
+        //            successful = true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return successful;
+        //        }
+        //    }
+        //    return successful;
+        //}
     }
 }

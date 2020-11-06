@@ -26,7 +26,7 @@ namespace TenmoServer.DAO
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("SELECT * From users", conn);
-                
+
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -47,7 +47,7 @@ namespace TenmoServer.DAO
 
                 SqlCommand cmdSend = new SqlCommand("UPDATE accounts SET balance = balance - @amountSent WHERE user_id = @Sender;", conn);
                 cmdSend.Parameters.AddWithValue("@amountSent", transfer.Amount);
-                cmdSend.Parameters.AddWithValue("@Sender", transfer.AccountFrom);
+                cmdSend.Parameters.AddWithValue("@Sender", transfer.AccountFrom.UserId);
                 cmdSend.ExecuteNonQuery();
 
                 SqlCommand cmdReceive = new SqlCommand("UPDATE accounts SET balance = balance + @amountReceived WHERE user_id = @Receipient;", conn);
@@ -68,7 +68,7 @@ namespace TenmoServer.DAO
                 cmd.Parameters.AddWithValue("@transferTypeID", newTransfer.TransferType);
                 cmd.Parameters.AddWithValue("@transferStatusID", newTransfer.TransferStatus);
                 cmd.Parameters.AddWithValue("@accountFromUser", newTransfer.AccountFrom.UserId);
-                cmd.Parameters.AddWithValue("@accountToUser", newTransfer.AccountTo.UserId);
+                cmd.Parameters.AddWithValue("@accountToUser", newTransfer.AccountTo);
                 cmd.Parameters.AddWithValue("@amount", newTransfer.Amount);
 
                 int id = Convert.ToInt32(cmd.ExecuteScalar());
@@ -86,15 +86,15 @@ namespace TenmoServer.DAO
         }
 
 
-                private ReturnUser GetReturnUserFromReader(SqlDataReader reader)
-                {
-                    ReturnUser user = new ReturnUser();
+        private ReturnUser GetReturnUserFromReader(SqlDataReader reader)
+        {
+            ReturnUser user = new ReturnUser();
 
-                    user.UserId = Convert.ToInt32(reader["user_id"]);
-                    user.Username = Convert.ToString(reader["username"]);
+            user.UserId = Convert.ToInt32(reader["user_id"]);
+            user.Username = Convert.ToString(reader["username"]);
 
-                    return user;
-                }
-
-            }
+            return user;
         }
+
+    }
+}

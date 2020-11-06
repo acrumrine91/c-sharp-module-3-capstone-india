@@ -47,35 +47,35 @@ namespace TenmoServer.Controllers
             return Ok(account);
         }
 
-        [HttpGet("allusers")]
+        [HttpGet("transfer")]
         public ActionResult<List<ReturnUser>> GetAllUsers()
         {
             return Ok(this.transferDAO.GetUsersList());
         }
 
-        //    [HttpPost("transfer")]
-        //    public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
-        //    {
-        //        Account account = this.accountDAO.GetBalance(userName);
-        //        Transfer transferAttempt;
+        [HttpPost("transfer")]
+        public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
+        {
+            Account account = this.accountDAO.GetBalance(userName);
+            Transfer transferAttempt;
 
-        //        if(userName == transfer.AccountTo.Username)
-        //        {
-        //            return Forbid();
-        //        }    
+            if (userName == transfer.AccountTo.Username)
+            {
+                return Forbid();
+            }
 
-        //        if (account.Balance >= transfer.Amount)
-        //        {
-        //            transferAttempt = transferDAO.ExecuteTransfer(transfer);
-        //            transferDAO.BeginTransfer(transferAttempt);
+            if (account.Balance >= transfer.Amount)
+            {
+                transferAttempt = transferDAO.ExecuteTransfer(transfer);
+                transferDAO.BeginTransfer(transferAttempt);
 
-        //            return Ok(transferAttempt);
-        //        }
+                return Ok(transferAttempt);
+            }
 
-        //        return BadRequest();
-        //    }
+            return BadRequest();
+        }
 
-        
+
     }
 }
 
