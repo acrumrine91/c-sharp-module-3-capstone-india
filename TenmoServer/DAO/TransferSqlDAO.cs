@@ -18,15 +18,15 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public List<ReturnUser> GetUsersList(string userName)
+        public List<ReturnUser> GetUsersList()
         {
             List<ReturnUser> users = new List<ReturnUser>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT * From users WHERE users.username != @UserName", conn);
-                cmd.Parameters.AddWithValue("@UserName", userName);
+                SqlCommand cmd = new SqlCommand("SELECT * From users", conn);
+                
 
                 SqlDataReader reader = cmd.ExecuteReader();
 

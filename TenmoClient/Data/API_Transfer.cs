@@ -6,9 +6,9 @@ namespace TenmoClient.Data
 {
     public class API_Transfer
     {
-        public API_Transfer(int userSendTo, /*int transferFromUser,*/ decimal amount)
+        public API_Transfer(int userSendTo, int transferFromUser, decimal amount)
         {
-            //this.AccountFrom = transferFromUser;
+            this.AccountFrom = transferFromUser;
             this.AccountTo = userSendTo;
             this.Amount = amount;
         }

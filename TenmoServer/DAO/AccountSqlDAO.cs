@@ -40,6 +40,23 @@ namespace TenmoServer.DAO
             }
             return account;
         }
+
+        
+
+        public bool TransferTo(string userName, decimal amount)
+        {
+            bool successful = false;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    decimal newAmount = GetBalance(userName) + amount;
+                }
+            }
+        }
+
         private Account GetAccountFromReader(SqlDataReader reader)
         {
             Account account = new Account();
