@@ -161,7 +161,7 @@ namespace TenmoClient
 
             foreach (API_User user in allUsers)
             {
-                Console.WriteLine(count + ") " + user.Username);
+                Console.WriteLine(count + "   " + user.Username);
                 usersForDisplay.Add(count, user);
                 count++;
             }
@@ -177,7 +177,7 @@ namespace TenmoClient
             {
                 decimal amount = consoleService.AmountForTransfer();
                 int userTransferFrom = UserService.UserId;
-                API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
+                API_Transfer transfer = new API_Transfer(userSendToId/*, userTransferFrom*/, amount);
                 transfer = accountService.TransferTEBucks(transfer);
             }
         }
