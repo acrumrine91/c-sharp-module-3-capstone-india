@@ -182,6 +182,7 @@ namespace TenmoClient
             {
                 decimal amount = consoleService.AmountForTransfer();
                 int userTransferFrom = UserService.UserId;
+<<<<<<< HEAD
 
                 API_Transfer transfer = new API_Transfer();
             
@@ -194,6 +195,10 @@ namespace TenmoClient
                 //API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
                 //transfer = accountService.TransferTEBucks(transfer);
 
+=======
+                API_Transfer transfer = new API_Transfer(userSendToId, userTransferFrom, amount);
+                API_Transfer transferResult = accountService.TransferTEBucks(transfer);
+>>>>>>> f50360c81d9bab0729a6aa8f0cdf8683acb89511
             }
         }
 
