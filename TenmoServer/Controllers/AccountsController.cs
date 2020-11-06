@@ -59,6 +59,11 @@ namespace TenmoServer.Controllers
             Account account = this.accountDAO.GetBalance(userName);
             Transfer transferAttempt;
 
+            if(userName == transfer.AccountTo.Username)
+            {
+                return Forbid();
+            }    
+
             if (account.Balance >= transfer.Amount)
             {
                 transferAttempt = transferDAO.ExecuteTransfer(transfer);
