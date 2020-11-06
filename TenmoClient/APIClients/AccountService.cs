@@ -22,7 +22,7 @@ namespace TenmoClient.APIClients
             this.client = new RestClient();
         }
 
-        public void UpdateToken (string token)
+        public void UpdateToken(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -31,7 +31,7 @@ namespace TenmoClient.APIClients
             else
             {
                 this.client.Authenticator = new JwtAuthenticator(token);
-            }                
+            }
         }
         public List<API_User> GetAllUserAccounts()
         {
@@ -51,11 +51,11 @@ namespace TenmoClient.APIClients
             }
         }
 
-        
+
         public API_Account GetBalance()
         {
-           
-            RestRequest request = new RestRequest(BASE_URL + "/balance"  );
+
+            RestRequest request = new RestRequest(BASE_URL + "/balance");
 
             IRestResponse<API_Account> response = client.Get<API_Account>(request);
 
@@ -69,7 +69,7 @@ namespace TenmoClient.APIClients
 
                 return null;
             }
-        } 
+        }
 
         public API_Transfer TransferTEBucks(API_Transfer transfer)
         {

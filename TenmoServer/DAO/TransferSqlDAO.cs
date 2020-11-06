@@ -66,8 +66,8 @@ namespace TenmoServer.DAO
                 SqlCommand cmd = new SqlCommand("INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (@transferTypeID, @transferStatusID, @accountFromUser, @accountToUser, @amount); SELECT SCOPE_IDENTITY();", conn);
                 cmd.Parameters.AddWithValue("@transferTypeID", newTransfer.TransferType);
                 cmd.Parameters.AddWithValue("@transferStatusID", newTransfer.TransferStatus);
-                cmd.Parameters.AddWithValue("@accountFromUser", newTransfer.AccountFrom);
-                cmd.Parameters.AddWithValue("@accountToUser", newTransfer.AccountTo);
+                cmd.Parameters.AddWithValue("@accountFromUser", newTransfer.AccountFrom.UserId);
+                cmd.Parameters.AddWithValue("@accountToUser", newTransfer.AccountTo.UserId);
                 cmd.Parameters.AddWithValue("@amount", newTransfer.Amount);
 
                 int id = Convert.ToInt32(cmd.ExecuteScalar());
@@ -85,7 +85,7 @@ namespace TenmoServer.DAO
         }
 
 
-        private ReturnUser GetReturnUserFromReader(SqlDataReader reader)
+                private ReturnUser GetReturnUserFromReader(SqlDataReader reader)
                 {
                     ReturnUser user = new ReturnUser();
 
