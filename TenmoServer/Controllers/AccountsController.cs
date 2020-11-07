@@ -54,6 +54,12 @@ namespace TenmoServer.Controllers
 
         }
 
+        [HttpGet("allusers")]
+        public ActionResult<List<User>> GetAllUsers()
+        {
+            return Ok(this.userDAO.GetUsers());
+        }
+
        
 
         

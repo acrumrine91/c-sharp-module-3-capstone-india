@@ -126,10 +126,10 @@ namespace TenmoClient
         private void DisplayBalance()
         {
 
-            API_Account account = accountService.GetBalance();
-            if (account != null)
+            decimal balance = accountService.GetBalance();
+            if (balance != null)
             {
-                Console.WriteLine("Your account balance is: " + account.Balance.ToString("C"));
+                Console.WriteLine("Your account balance is: " + balance.ToString("C"));
             }
             else
             {
@@ -176,9 +176,16 @@ namespace TenmoClient
         }
         private void PromptAndAddNewTransfer()
         {
-            API_Transfer transfer = this.consoleService.PromptForTransfer();
+            Console.WriteLine("---------");
+            Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
+            int userId = Convert.ToInt32(Console.ReadLine());
 
-            if (this.transferService.TransferTEBucks(transfer) != null)
+            Console.WriteLine("Enter amount:");
+            decimal amount = Convert.ToDecimal(Console.ReadLine());
+
+
+            bool transfer = this.transferService.TransferTEBucks(userId, amount);
+            if (transfer)
             {
                 Console.WriteLine("Transfer Successful");
             }

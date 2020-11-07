@@ -14,7 +14,7 @@ namespace TenmoClient.APIClients
     {
         private readonly string BASE_URL;
         private readonly RestClient client;
-        
+
 
         public AccountService()
         {
@@ -22,7 +22,7 @@ namespace TenmoClient.APIClients
 
             this.client = new RestClient();
 
-            
+
         }
 
         public void UpdateToken(string token)
@@ -56,23 +56,27 @@ namespace TenmoClient.APIClients
         }
 
 
-        public API_Account GetBalance()
+        public decimal GetBalance()
         {
 
             RestRequest request = new RestRequest(BASE_URL + "/balance");
 
-            IRestResponse<API_Account> response = client.Get<API_Account>(request);
+            IRestResponse<decimal> response = client.Get<decimal>(request);
 
-            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
+            if (response.ResponseStatus != ResponseStatus.Completed)
             {
-                return response.Data;
+                throw new Exception("An error occurred communicating with the server.");
+            }
+            else if (!response.IsSuccessful)
+            {
+                throw new Exception("An error response was received from the server. The status code is " + (int)response.StatusCode);
+
             }
             else
             {
-                Console.WriteLine("An error occured fetching balance");
-
-                return null;
+                return response.Data;
             }
-        }      
+        }
+
     }
 }

@@ -17,12 +17,16 @@ namespace TenmoClient.APIClients
 
             this.client = new RestClient();
         }
-        public API_Transfer TransferTEBucks(API_Transfer transfer)
+        public bool TransferTEBucks(int userID, decimal amount)
+
         {
+            API_Transfer transfer = new API_Transfer();
+            transfer.AccountTo = userID;
+            transfer.Amount = amount;
             RestRequest request = new RestRequest(BASE_URL);
             request.AddJsonBody(transfer);
 
-            IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);
+            IRestResponse<bool> response = client.Post<bool>(request);
 
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
