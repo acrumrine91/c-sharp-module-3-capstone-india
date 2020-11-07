@@ -38,7 +38,7 @@ namespace TenmoClient.APIClients
         }
         public List<API_User> GetAllUserAccounts()
         {
-            RestRequest request = new RestRequest(BASE_URL + "/transfer");
+            RestRequest request = new RestRequest(BASE_URL + "/allusers");
 
             IRestResponse<List<API_User>> response = client.Get<List<API_User>>(request);
 
@@ -50,7 +50,8 @@ namespace TenmoClient.APIClients
             {
                 Console.WriteLine("An error occured getting all users.");
 
-                return new List<API_User>();
+                //return new List<API_User>();
+                return null;
             }
         }
 
@@ -72,26 +73,6 @@ namespace TenmoClient.APIClients
 
                 return null;
             }
-        }
-
-        public API_Transfer TransferTEBucks(API_Transfer transfer)
-        {
-            
-            RestRequest request = new RestRequest(BASE_URL + "/transfer");
-            request.AddJsonBody(transfer);
-            IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);
-            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
-            {
-                return response.Data;
-            }
-            else
-            {
-                Console.WriteLine("Transfer Failed");
-
-                return null;
-            }
-        }
-
-     
+        }      
     }
 }

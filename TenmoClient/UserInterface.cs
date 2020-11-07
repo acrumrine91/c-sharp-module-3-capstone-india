@@ -10,6 +10,7 @@ namespace TenmoClient
         private readonly ConsoleService consoleService = new ConsoleService();
         private readonly AuthService authService = new AuthService();
         private readonly AccountService accountService = new AccountService();
+        private readonly TransferService transferService = new TransferService();
 
         private bool shouldExit = false;
 
@@ -177,31 +178,35 @@ namespace TenmoClient
         {
             API_Transfer transfer = this.consoleService.PromptForTransfer();
 
-            if (this.accountService.TransferTEBucks(transfer) != null)
+            if (this.transferService.TransferTEBucks(transfer) != null)
             {
                 Console.WriteLine("Transfer Successful");
             }
-        }
-        private void CreateNewTransfer()
-        {
-            Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
-            int userSendToId = consoleService.PromptForUserIDToTransferTo();
-            if (usersForTransfer.ContainsKey(userSendToId))
+            else
             {
-                decimal amount = consoleService.AmountForTransfer();
-                int userTransferFrom = UserService.UserId;
-
-
-                API_Transfer transfer = new API_Transfer();
-
-                transfer.AccountFrom = userTransferFrom;
-                transfer.AccountTo = userSendToId;
-                transfer.Amount = amount;
-                accountService.TransferTEBucks(transfer);
-
-
+                Console.WriteLine("Transfer Failed");
             }
         }
+        //private void CreateNewTransfer()
+        //{
+        //    Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
+        //    int userSendToId = consoleService.PromptForUserIDToTransferTo();
+        //    if (usersForTransfer.ContainsKey(userSendToId))
+        //    {
+        //        decimal amount = consoleService.AmountForTransfer();
+        //        int userTransferFrom = UserService.UserId;
+
+
+        //        API_Transfer transfer = new API_Transfer();
+
+        //        transfer.AccountFrom = userTransferFrom;
+        //        transfer.AccountTo = userSendToId;
+        //        transfer.Amount = amount;
+        //        accountService.TransferTEBucks(transfer);
+
+
+        //    }
+        
 
     }
 }

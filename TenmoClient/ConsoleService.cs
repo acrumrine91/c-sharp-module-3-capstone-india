@@ -12,26 +12,27 @@ namespace TenmoClient
         /// </summary>
         /// <param name="action">String to print in prompt. Expected values are "Approve" or "Reject" or "View"</param>
         /// <returns>ID of transfers to view, approve, or reject</returns>
-        public int PromptForTransferID(/*string action*/)
-        {
-            Console.WriteLine("");
-            Console.Write($"Please enter transfer ID to action (0 to cancel): ");
+        //public int PromptForTransferID(/*string action*/)
+        //{
+        //    Console.WriteLine("");
+        //    Console.Write($"Please enter transfer ID to action (0 to cancel): ");
 
-            if (!int.TryParse(Console.ReadLine(), out int userId))
-            {
-                Console.WriteLine("Invalid input. Only input a number.");
-                return 0;
-            }
+        //    if (!int.TryParse(Console.ReadLine(), out int userId))
+        //    {
+        //        Console.WriteLine("Invalid input. Only input a number.");
+        //        return 0;
+        //    }
 
-            return userId;
-        }
+        //    return userId;
+        //}
 
         public API_Transfer PromptForTransfer()
         {
-            Console.WriteLine("What is your question's text?");
+            Console.WriteLine("---------");
+            Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
             int userId = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("What is your question's answer?");
+            Console.WriteLine("Enter amount:");
             decimal amount = Convert.ToDecimal(Console.ReadLine());
 
             return new API_Transfer()
@@ -41,19 +42,19 @@ namespace TenmoClient
             };
         }
 
-        public int PromptForUserIDToTransferTo()
-        {
-            Console.WriteLine("");
-            Console.Write("Please enter the user ID to transfer to (0 to cancel): ");
+        //public int PromptForUserIDToTransferTo()
+        //{
+        //    Console.WriteLine("");
+        //    Console.Write("Please enter the user ID to transfer to (0 to cancel): ");
 
-            if (!int.TryParse(Console.ReadLine(), out int userId))
-            {
-                Console.WriteLine("Invalid input. Only input a number.");
-                return 0;
-            }
+        //    if (!int.TryParse(Console.ReadLine(), out int userId))
+        //    {
+        //        Console.WriteLine("Invalid input. Only input a number.");
+        //        return 0;
+        //    }
 
-            return userId;
-        }
+        //    return userId;
+        //}
 
 
 
@@ -103,18 +104,18 @@ namespace TenmoClient
             return pass;
         }
 
-        public decimal AmountForTransfer()
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Enter amount : ");
-            if (!decimal.TryParse(Console.ReadLine(), out decimal amount))
-            {
-                Console.WriteLine("Invalid input. Only input a number.");
-                return 0;
-            }
+        //public decimal AmountForTransfer()
+        //{
+        //    Console.WriteLine("");
+        //    Console.WriteLine("Enter amount : ");
+        //    if (!decimal.TryParse(Console.ReadLine(), out decimal amount))
+        //    {
+        //        Console.WriteLine("Invalid input. Only input a number.");
+        //        return 0;
+        //    }
 
-            return amount;
-        }
+        //    return amount;
+        //}
 
     }
 

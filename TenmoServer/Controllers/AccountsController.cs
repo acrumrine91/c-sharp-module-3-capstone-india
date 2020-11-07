@@ -49,20 +49,14 @@ namespace TenmoServer.Controllers
             return Ok(account);
         }
 
-        [HttpGet("transfer")]
+        [HttpGet("allusers")]
         public ActionResult<List<User>> GetAllUsers()
         {
 
             return Ok(this.userDAO.GetUsers());
         }
 
-        [HttpPost("transfer")]
-        public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
-        {
-            Transfer newTransfer = this.transferDAO.AddTransfer(transfer);
-            return Created($"/transfer/{newTransfer.Amount}", newTransfer);
-
-        }
+        
 
 
     }
