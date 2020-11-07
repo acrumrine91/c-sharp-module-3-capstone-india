@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TenmoServer.Models;
 
@@ -17,42 +18,102 @@ namespace TenmoServer.DAO
         }
 
 
-        
-        public Account GetBalance(string userName)
-        {
 
-            Account account = new Account();
-            using (SqlConnection conn = new SqlConnection(connectionString))
+        public decimal GetBalance(int userId)
+        {
+            decimal balance = 0.00M;
+            try
             {
-                conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT * FROM accounts JOIN users ON users.user_id = accounts.user_id WHERE users.username = @UserName", conn);
-                cmd.Parameters.AddWithValue("@UserName", userName);
-
-
-                SqlDataReader reader = cmd.ExecuteReader(); //scaler?
-
-                while (reader.Read())
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    account = GetAccountFromReader(reader);
-                }    
+                    conn.Open();
 
+                    SqlCommand cmd = new SqlCommand("SELECT balance FROM accounts WHERE user_id = @UserID", conn);
+                    cmd.Parameters.AddWithValue("@UserID", userId);
+
+
+                    SqlDataReader reader = cmd.ExecuteReader(); //scaler?
+
+                    while (reader.Read())
+                    {
+                        balance = Convert.ToDecimal(reader["balance"]);
+                    }
+                    return balance;
+                }
             }
-            return account;
+            catch (SqlException ex)
+            {
+                return balance;
+            }
         }
 
-       
 
-        private Account GetAccountFromReader(SqlDataReader reader)
+        public bool TransferFundsReceiversBalance(decimal amount, int userId)
         {
-            Account account = new Account();
-            account.AccountID = Convert.ToInt32(reader["account_id"]);
-            account.UserID = Convert.ToInt32(reader["user_id"]);
-            account.Balance = Convert.ToDecimal(reader["balance"]);
-            account.UserName = Convert.ToString(reader["username"]);
 
-            return account;
+            bool successful = false;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+
+                {
+                    conn.Open();
+
+                    decimal newBalance = GetBalance(userId);
+                    newBalance += amount;
+
+                    SqlCommand command = new SqlCommand("UPDATE accounts JOIN users ON users.user_id = accounts.user_id SET balance = @newBalance WHERE users.user_id = @UserID", conn);
+                    command.Parameters.AddWithValue("newBalance", newBalance);
+                    command.Parameters.AddWithValue("@UserName", userId);
+
+                    command.ExecuteNonQuery();
+                    successful = true;
+                    return successful;
+                }
+            }
+            catch (Exception ex)
+            {
+                return successful;
+            }
         }
+
+        public bool TransferFundsSendersBalance(decimal amount, int userID)
+        {
+
+            bool successful = false;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+
+                {
+                    conn.Open();
+
+                    decimal newBalance = GetBalance(userID);
+                    newBalance -= amount;
+
+                    SqlCommand command = new SqlCommand("UPDATE accounts JOIN users ON users.user_id = accounts.user_id SET balance = @newBalance WHERE users.user_id = @UserID", conn);
+                    command.Parameters.AddWithValue("newBalance", newBalance);
+                    command.Parameters.AddWithValue("@UserName", userID);
+
+                    command.ExecuteNonQuery();
+                    successful = true;
+                    return successful;
+                }
+            }
+            catch (Exception ex)
+            {
+                return successful;
+            }
+        }
+
+
+
+
+
+
+
+
     }
 }
 

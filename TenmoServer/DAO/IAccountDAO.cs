@@ -7,6 +7,10 @@ namespace TenmoServer.DAO
 {
     public interface IAccountDAO
     {
-        Account GetBalance(string userName);
+        decimal GetBalance(int userId);
+
+        bool TransferFundsReceiversBalance(decimal amount, int userId);
+
+        bool TransferFundsSendersBalance(decimal amount, int userID);
     }
 }

@@ -10,9 +10,5 @@ namespace TenmoClient.Data
         public int AccountId { get; set; }
         public decimal Balance { get; set; }
 
-        public API_Account()
-        {
-
-        }
     }
 }

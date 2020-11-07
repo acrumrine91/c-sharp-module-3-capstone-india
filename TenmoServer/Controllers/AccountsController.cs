@@ -32,29 +32,29 @@ namespace TenmoServer.Controllers
 
         }
 
-        public string userName => User.Identity.Name;
+        
 
 
 
         [HttpGet("balance")]
-        public ActionResult<Account> GetBalance()
+        public decimal GetBalance()
         {
+            int userId = -1;
 
-            Account account = this.accountDAO.GetBalance(userName);
-
-            if (account == null)
+            foreach (Claim claim in User.Claims)
             {
-                return NotFound();
+                if (claim.Type == "sub")
+                {
+                    userId = int.Parse(claim.Value);
+                    break;
+                }
             }
-            return Ok(account);
+            decimal accountBalance = accountDAO.GetBalance(userId);
+            return accountBalance;
+
         }
 
-        [HttpGet("allusers")]
-        public ActionResult<List<User>> GetAllUsers()
-        {
-
-            return Ok(this.userDAO.GetUsers());
-        }
+       
 
         
 
