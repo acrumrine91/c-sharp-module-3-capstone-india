@@ -11,7 +11,7 @@ namespace TenmoServer.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class TransferController : ControllerBase
     {
         private readonly ITransferDAO transferDAO;
@@ -25,7 +25,7 @@ namespace TenmoServer.Controllers
             this.userDAO = userDAO;
         }
         
-        [HttpPost("transfer")]
+        [HttpPost]
         public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
         {
             Transfer newTransfer = this.transferDAO.AddTransfer(transfer);

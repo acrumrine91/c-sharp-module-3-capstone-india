@@ -13,7 +13,7 @@ namespace TenmoClient.APIClients
 
         public TransferService()
         {
-            this.BASE_URL = AuthService.API_BASE_URL + "transfers";
+            this.BASE_URL = AuthService.API_BASE_URL + "transfer";
 
             this.client = new RestClient();
         }

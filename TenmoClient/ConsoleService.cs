@@ -26,8 +26,10 @@ namespace TenmoClient
         //    return userId;
         //}
 
+        //private API_User user = new API_User(); sets us up to use the user if we want
         public API_Transfer PromptForTransfer()
         {
+            
             Console.WriteLine("---------");
             Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
             int userId = Convert.ToInt32(Console.ReadLine());
@@ -37,6 +39,7 @@ namespace TenmoClient
 
             return new API_Transfer()
             {
+                //AccountFrom = user.UserId,  probably want this here? accountfrom shows up null in SQL
                 AccountTo = userId,
                 Amount = amount,
             };
