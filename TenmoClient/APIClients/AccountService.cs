@@ -14,6 +14,7 @@ namespace TenmoClient.APIClients
     {
         private readonly string BASE_URL;
         private readonly RestClient client;
+        
 
 
         public AccountService()
@@ -22,6 +23,7 @@ namespace TenmoClient.APIClients
 
             this.client = new RestClient();
 
+            
 
         }
 
@@ -51,7 +53,7 @@ namespace TenmoClient.APIClients
                 Console.WriteLine("An error occured getting all users.");
 
                 //return new List<API_User>();
-                return null;
+                return new List<API_User>();
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,19 +11,22 @@ namespace TenmoClient.APIClients
     {
         private readonly string BASE_URL;
         private readonly RestClient client;
+        
 
         public TransferService()
         {
             this.BASE_URL = AuthService.API_BASE_URL + "transfer";
 
             this.client = new RestClient();
+
+            
         }
-        public bool TransferTEBucks(int userID, decimal amount)
+        public bool TransferTEBucks(API_Transfer transfer)
 
         {
-            API_Transfer transfer = new API_Transfer();
-            transfer.AccountTo = userID;
-            transfer.Amount = amount;
+            //API_Transfer transfer = new API_Transfer();
+            //transfer.AccountTo = userID;
+            //transfer.Amount = amount;
             RestRequest request = new RestRequest(BASE_URL);
             request.AddJsonBody(transfer);
 

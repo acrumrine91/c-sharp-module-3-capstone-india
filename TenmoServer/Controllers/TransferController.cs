@@ -18,7 +18,7 @@ namespace TenmoServer.Controllers
         private readonly ITransferDAO transferDAO;
         private readonly IAccountDAO accountDAO;
         private readonly IUserDAO userDAO;
-        public string userName => User.Identity.Name;
+        //public string userName => User.Identity.Name;
 
         public TransferController(IAccountDAO accountDAO, ITransferDAO transferDAO, IUserDAO userDAO)
         {
@@ -30,6 +30,12 @@ namespace TenmoServer.Controllers
         [HttpPost]
         public ActionResult<bool> TransferMoneyToUser(Transfer transfer)
         {
+
+            //    Transfer newTransfer = this.accountDAO.TransferFundsSendersBalance(transfer.Amount, transfer.AccountFrom);
+            //    Transfer transferStep2 = this.accountDAO.TransferFundsReceiversBalance(transfer.Amount, transfer.AccountTo);
+            //    Transfer finalTransferStep = this.transferDAO.TransferFunds(transferStep2);
+            //    return finalTransferStep;
+            //}
 
             bool successful = false;
 
@@ -59,7 +65,7 @@ namespace TenmoServer.Controllers
                         return successful;
                     }
                 }
-                
+
             }
             return successful;
 
@@ -68,3 +74,4 @@ namespace TenmoServer.Controllers
 
     }
 }
+

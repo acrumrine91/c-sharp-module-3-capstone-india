@@ -125,8 +125,9 @@ namespace TenmoClient
         }
         private void DisplayBalance()
         {
+           decimal balance = accountService.GetBalance();
 
-            decimal balance = accountService.GetBalance();
+            
             if (balance != null)
             {
                 Console.WriteLine("Your account balance is: " + balance.ToString("C"));
@@ -152,13 +153,14 @@ namespace TenmoClient
                 }
             }
         }
-        private Dictionary<int,API_User> DisplayAllUsers()
+        //private Dictionary<int,API_User> DisplayAllUsers()
+        private List<API_User> DisplayAllUsers()
         {
 
             Console.Clear();
             List<API_User> allUsers = this.accountService.GetAllUserAccounts();
-            Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
-            int count = 1;
+            //Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
+            //int count = 1;
 
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine("Users");
@@ -167,25 +169,28 @@ namespace TenmoClient
 
             foreach (API_User user in allUsers)
             {
-                Console.WriteLine(count + "\t\t" + user.Username);
-                usersForDisplay.Add(count, user);
-                count++;
+                //Console.WriteLine(count + "\t\t" + user.Username);
+                Console.WriteLine(user.UserId + "\t\t" + user.Username);
+                //usersForDisplay.Add(count, user);
+                //count++;
             }
-            return usersForDisplay;
+            //return usersForDisplay;
+            return allUsers;
 
         }
         private void PromptAndAddNewTransfer()
         {
+            API_Transfer transfer = new API_Transfer();
             Console.WriteLine("---------");
             Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
-            int userId = Convert.ToInt32(Console.ReadLine());
+            transfer.AccountTo = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Enter amount:");
-            decimal amount = Convert.ToDecimal(Console.ReadLine());
+            transfer.Amount = Convert.ToDecimal(Console.ReadLine());
 
 
-            bool transfer = this.transferService.TransferTEBucks(userId, amount);
-            if (transfer)
+            if (this.transferService.TransferTEBucks(transfer) != null) 
+
             {
                 Console.WriteLine("Transfer Successful");
             }
@@ -213,7 +218,7 @@ namespace TenmoClient
 
 
         //    }
-        
+
 
     }
 }

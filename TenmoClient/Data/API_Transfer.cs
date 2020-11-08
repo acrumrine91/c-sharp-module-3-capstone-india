@@ -8,6 +8,8 @@ namespace TenmoClient.Data
     {
         public int TransferID { get; set; }
 
+        public int AccountFrom { get; set; }
+
         public decimal Amount { get; set; }
 
         public int AccountTo { get; set; }

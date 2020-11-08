@@ -51,7 +51,7 @@ namespace TenmoServer.DAO
 
         public bool TransferFundsReceiversBalance(decimal amount, int userId)
         {
-
+            Transfer transfer = new Transfer();
             bool successful = false;
             try
             {
@@ -80,7 +80,7 @@ namespace TenmoServer.DAO
 
         public bool TransferFundsSendersBalance(decimal amount, int userID)
         {
-
+            Transfer transfer = new Transfer();
             bool successful = false;
             try
             {

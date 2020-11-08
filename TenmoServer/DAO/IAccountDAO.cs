@@ -9,8 +9,8 @@ namespace TenmoServer.DAO
     {
         decimal GetBalance(int userId);
 
-        bool TransferFundsReceiversBalance(decimal amount, int userId);
-
         bool TransferFundsSendersBalance(decimal amount, int userID);
+
+        bool TransferFundsReceiversBalance(decimal amount, int userId);
     }
 }
