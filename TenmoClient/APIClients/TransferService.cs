@@ -11,7 +11,7 @@ namespace TenmoClient.APIClients
     {
         private readonly string BASE_URL;
         private readonly RestClient client;
-        private string token;
+        //private string token;
         
 
         public TransferService()
@@ -19,8 +19,8 @@ namespace TenmoClient.APIClients
             this.BASE_URL = AuthService.API_BASE_URL + "transfer";
 
             this.client = new RestClient();
-            this.token = UserService.Token;
-            client.Authenticator = new JwtAuthenticator(token);
+            //this.token = UserService.Token;
+            //client.Authenticator = new JwtAuthenticator(token);
 
             
         }
