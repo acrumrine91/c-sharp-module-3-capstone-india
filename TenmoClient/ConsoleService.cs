@@ -31,13 +31,14 @@ namespace TenmoClient
         //private API_User user = new API_User(); sets us up to use the user if we want
         public API_Transfer PromptForTransfer()
         {
-           
 
+            
             Console.WriteLine("---------");
-            Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
+            Console.WriteLine();
+            Console.Write("Enter ID of user you are sending to (0 to cancel): ");
             int userId = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Enter amount:");
+            Console.Write("Enter amount: ");
             decimal amount = Convert.ToDecimal(Console.ReadLine());
 
             return new API_Transfer()

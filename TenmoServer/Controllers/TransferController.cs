@@ -27,82 +27,22 @@ namespace TenmoServer.Controllers
             this.userDAO = userDAO;
         }
 
-        //[HttpPost]
-        //public ActionResult<bool> TransferMoneyToUser(Transfer transfer)
-        //{
 
-        //    //    Transfer newTransfer = this.accountDAO.TransferFundsSendersBalance(transfer.Amount, transfer.AccountFrom);
-        //    //    Transfer transferStep2 = this.accountDAO.TransferFundsReceiversBalance(transfer.Amount, transfer.AccountTo);
-        //    //    Transfer finalTransferStep = this.transferDAO.TransferFunds(transferStep2);
-        //    //    return finalTransferStep;
-        //    //}
-
-        //    bool successful = false;
-
-        //    int transferFromID = -1;
-
-
-
-        //    foreach (Claim claim in User.Claims)
-        //    {
-        //        if (claim.Type == "sub")
-        //        {
-        //            transferFromID = int.Parse(claim.Value);
-
-        //        }
-        //    }
-        //        decimal userFromBalance = accountDAO.GetBalance(transferFromID);
-        //        if (userFromBalance >= transfer.Amount)
-        //        {
-        //            try
-        //            {
-        //                accountDAO.TransferFundsSendersBalance(transfer);
-        //                accountDAO.TransferFundsReceiversBalance(transfer);
-        //                transferDAO.TransferFunds(transfer);
-        //                successful = true;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                return successful;
-        //            }
-        //        }
-
-
-        //    return successful;
-
-
-        //}
         [HttpPost]
         public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
         {
 
-            //    Transfer newTransfer = this.accountDAO.TransferFundsSendersBalance(transfer.Amount, transfer.AccountFrom);
-            //    Transfer transferStep2 = this.accountDAO.TransferFundsReceiversBalance(transfer.Amount, transfer.AccountTo);
-            //    Transfer finalTransferStep = this.transferDAO.TransferFunds(transferStep2);
-            //    return finalTransferStep;
-            //}
-            int transferFromID = -1;
-            foreach (Claim claim in User.Claims)
-            {
-                if (claim.Type == "sub")
-                {
-                    transferFromID = int.Parse(claim.Value);
 
-                }
-            }
-
-
-
-            
-
-            decimal userFromBalance = accountDAO.GetBalance(transfer.AccountFrom);
-            if (userFromBalance >= transfer.Amount)
-            {
+            //decimal userFromBalance = accountDAO.GetBalance(transfer.AccountFrom);
+            //if (userFromBalance >= transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
+            //{
 
                 accountDAO.TransferFundsSendersBalance(transfer);
                 accountDAO.TransferFundsReceiversBalance(transfer);
                 transferDAO.TransferFunds(transfer);
-            }
+            //}
+            
+
             return Created($"/transfer/{transfer.TransferID}", transfer);
 
 

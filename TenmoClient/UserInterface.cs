@@ -150,58 +150,12 @@ namespace TenmoClient
                 {
                     this.accountService.UpdateToken(user.Token);
                     UserService.SetLogin(user);
-                    
+                    Console.Clear();
+
                     //will put the method to update token into the service class we create
                 }
             }
         }
-        //private List<API_User> DisplayAllUsers()
-        //{
-
-        //    Console.Clear();
-        //    List<API_User> allUsers = this.accountService.GetAllUserAccounts();
-        //    //Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
-        //    //int count = 1;
-
-        //    Console.WriteLine("-------------------------------------------");
-        //    Console.WriteLine("Users");
-        //    Console.WriteLine("ID\t\tName");
-        //    Console.WriteLine("-------------------------------------------");
-
-        //    foreach (API_User user in allUsers)
-        //    {
-        //        //Console.WriteLine(count + "\t\t" + user.Username);
-        //        Console.WriteLine(user.UserId + "\t\t" + user.Username);
-        //        //usersForDisplay.Add(count, user);
-        //        //count++;
-        //    }
-        //    //return usersForDisplay;
-        //    return allUsers;
-
-        //}
-
-        //private void PromptAndAddNewTransfer()
-        //{
-        //    API_Transfer transfer = new API_Transfer();
-        //    Console.WriteLine("---------");
-        //    Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
-        //    transfer.AccountTo = Convert.ToInt32(Console.ReadLine());
-
-        //    Console.WriteLine("Enter amount:");
-        //    transfer.Amount = Convert.ToDecimal(Console.ReadLine());
-
-
-        //    bool result = transferService.TransferTEBucks(transfer);
-        //    if (result)
-
-        //    {
-        //        Console.WriteLine("Transfer Successful");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Transfer Failed");
-        //    }
-        //}
 
 
         private void PromptAndAddNewTransfer()
@@ -214,58 +168,36 @@ namespace TenmoClient
             List<API_User> allUsers = accountService.GetAllUserAccounts();
             foreach (API_User user in allUsers)
             {
-                Console.WriteLine(user.UserId + "\t\t" + user.Username);
+                if (user.UserId != UserService.UserId)
+                {
+                    Console.WriteLine(user.UserId + "\t\t" + user.Username);
+                }
             }
 
-        
 
-        //    Console.WriteLine("Enter amount:");
-        //    transfer.Amount = Convert.ToDecimal(Console.ReadLine());
 
-        //    bool result = this.transferService.TransferTEBucks(transfer.AccountTo, transfer.Amount);
-        //    if(result)
-        //    //if (this.transferService.TransferTEBucks(transfer); 
-
-        //    {
-        //        Console.WriteLine("Transfer Successful");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Transfer Failed");
-        //    }
-        //}
-
-        
-        
             API_Transfer transfer = this.consoleService.PromptForTransfer();
-
+            decimal balance = accountService.GetBalance();
             if (this.transferService.TransferTEBucks(transfer) != null)
             {
-                Console.WriteLine("Transfer Complete");
+                if (balance < transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Insufficient funds for transfer");
+                }
+                else if (balance >= transfer.Amount && transfer.AccountFrom == transfer.AccountTo)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Cannot transfer funds to yourself!");
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Transfer Complete");
+                }
             }
+
         }
-
     }
-    //private void CreateNewTransfer()
-    //{
-    //    Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
-    //    int userSendToId = consoleService.PromptForUserIDToTransferTo();
-    //    if (usersForTransfer.ContainsKey(userSendToId))
-    //    {
-    //        decimal amount = consoleService.AmountForTransfer();
-    //        int userTransferFrom = UserService.UserId;
-
-
-    //        API_Transfer transfer = new API_Transfer();
-
-    //        transfer.AccountFrom = userTransferFrom;
-    //        transfer.AccountTo = userSendToId;
-    //        transfer.Amount = amount;
-    //        accountService.TransferTEBucks(transfer);
-
-
-    //    }
-
-
 }
 
