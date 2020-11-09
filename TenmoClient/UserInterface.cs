@@ -90,7 +90,7 @@ namespace TenmoClient
                             break;
                         case 4:
                             Console.Clear();
-                            DisplayAllUsers();
+                            //DisplayAllUsers();
                             PromptAndAddNewTransfer();
                             break;
                         case 5:
@@ -125,9 +125,9 @@ namespace TenmoClient
         }
         private void DisplayBalance()
         {
-           decimal balance = accountService.GetBalance();
+            decimal balance = accountService.GetBalance();
 
-            
+
             if (balance != null)
             {
                 Console.WriteLine("Your account balance is: " + balance.ToString("C"));
@@ -137,6 +137,7 @@ namespace TenmoClient
                 Console.WriteLine("There was no balance available to display.");
             }
         }
+
 
 
         private void HandleUserLogin()
@@ -153,33 +154,68 @@ namespace TenmoClient
                 }
             }
         }
-        //private Dictionary<int,API_User> DisplayAllUsers()
-        private List<API_User> DisplayAllUsers()
+        //private List<API_User> DisplayAllUsers()
+        //{
+
+        //    Console.Clear();
+        //    List<API_User> allUsers = this.accountService.GetAllUserAccounts();
+        //    //Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
+        //    //int count = 1;
+
+        //    Console.WriteLine("-------------------------------------------");
+        //    Console.WriteLine("Users");
+        //    Console.WriteLine("ID\t\tName");
+        //    Console.WriteLine("-------------------------------------------");
+
+        //    foreach (API_User user in allUsers)
+        //    {
+        //        //Console.WriteLine(count + "\t\t" + user.Username);
+        //        Console.WriteLine(user.UserId + "\t\t" + user.Username);
+        //        //usersForDisplay.Add(count, user);
+        //        //count++;
+        //    }
+        //    //return usersForDisplay;
+        //    return allUsers;
+
+        //}
+
+        //private void PromptAndAddNewTransfer()
+        //{
+        //    API_Transfer transfer = new API_Transfer();
+        //    Console.WriteLine("---------");
+        //    Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
+        //    transfer.AccountTo = Convert.ToInt32(Console.ReadLine());
+
+        //    Console.WriteLine("Enter amount:");
+        //    transfer.Amount = Convert.ToDecimal(Console.ReadLine());
+
+
+        //    bool result = transferService.TransferTEBucks(transfer);
+        //    if (result)
+
+        //    {
+        //        Console.WriteLine("Transfer Successful");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Transfer Failed");
+        //    }
+        //}
+
+
+        private void PromptAndAddNewTransfer()
         {
-
-            Console.Clear();
-            List<API_User> allUsers = this.accountService.GetAllUserAccounts();
-            //Dictionary<int, API_User> usersForDisplay = new Dictionary<int, API_User>();
-            //int count = 1;
-
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine("Users");
             Console.WriteLine("ID\t\tName");
             Console.WriteLine("-------------------------------------------");
 
+            List<API_User> allUsers = accountService.GetAllUserAccounts();
             foreach (API_User user in allUsers)
             {
-                //Console.WriteLine(count + "\t\t" + user.Username);
                 Console.WriteLine(user.UserId + "\t\t" + user.Username);
-                //usersForDisplay.Add(count, user);
-                //count++;
             }
-            //return usersForDisplay;
-            return allUsers;
 
-        }
-        private void PromptAndAddNewTransfer()
-        {
             API_Transfer transfer = new API_Transfer();
             Console.WriteLine("---------");
             Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
@@ -188,8 +224,8 @@ namespace TenmoClient
             Console.WriteLine("Enter amount:");
             transfer.Amount = Convert.ToDecimal(Console.ReadLine());
 
-
-            if (this.transferService.TransferTEBucks(transfer) != null) 
+            bool result = transferService.TransferTEBucks(transfer.AccountTo, transfer.Amount);
+            if (result)
 
             {
                 Console.WriteLine("Transfer Successful");
@@ -199,26 +235,28 @@ namespace TenmoClient
                 Console.WriteLine("Transfer Failed");
             }
         }
-        //private void CreateNewTransfer()
-        //{
-        //    Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
-        //    int userSendToId = consoleService.PromptForUserIDToTransferTo();
-        //    if (usersForTransfer.ContainsKey(userSendToId))
-        //    {
-        //        decimal amount = consoleService.AmountForTransfer();
-        //        int userTransferFrom = UserService.UserId;
-
-
-        //        API_Transfer transfer = new API_Transfer();
-
-        //        transfer.AccountFrom = userTransferFrom;
-        //        transfer.AccountTo = userSendToId;
-        //        transfer.Amount = amount;
-        //        accountService.TransferTEBucks(transfer);
-
-
-        //    }
-
 
     }
+    //private void CreateNewTransfer()
+    //{
+    //    Dictionary<int, API_User> usersForTransfer = DisplayAllUsers();
+    //    int userSendToId = consoleService.PromptForUserIDToTransferTo();
+    //    if (usersForTransfer.ContainsKey(userSendToId))
+    //    {
+    //        decimal amount = consoleService.AmountForTransfer();
+    //        int userTransferFrom = UserService.UserId;
+
+
+    //        API_Transfer transfer = new API_Transfer();
+
+    //        transfer.AccountFrom = userTransferFrom;
+    //        transfer.AccountTo = userSendToId;
+    //        transfer.Amount = amount;
+    //        accountService.TransferTEBucks(transfer);
+
+
+    //    }
+
+
 }
+

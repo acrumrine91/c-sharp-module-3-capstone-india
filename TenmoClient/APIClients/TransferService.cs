@@ -21,12 +21,38 @@ namespace TenmoClient.APIClients
 
             
         }
-        public bool TransferTEBucks(API_Transfer transfer)
+        //public bool TransferTEBucks(API_Transfer transfer)
+
+        //{
+        //    //API_Transfer transfer = new API_Transfer();
+        //    //transfer.AccountTo = userID;
+        //    //transfer.Amount = amount;
+        //    RestRequest request = new RestRequest(BASE_URL);
+        //    request.AddJsonBody(transfer);
+
+        //    IRestResponse<bool> response = client.Post<bool>(request);
+
+        //    if (response.ResponseStatus != ResponseStatus.Completed)
+        //    {
+        //        throw new Exception("An error occurred communicating with the server.");
+        //    }
+        //    else if (!response.IsSuccessful)
+        //    {
+        //        throw new Exception("An error response was received from the server. The status code is " + (int)response.StatusCode);
+
+        //    }
+        //    else
+        //    {
+        //        return response.Data;
+        //    }
+        //}
+
+        public bool TransferTEBucks(int userID, decimal amount)
 
         {
-            //API_Transfer transfer = new API_Transfer();
-            //transfer.AccountTo = userID;
-            //transfer.Amount = amount;
+            API_Transfer transfer = new API_Transfer();
+            transfer.AccountTo = userID;
+            transfer.Amount = amount;
             RestRequest request = new RestRequest(BASE_URL);
             request.AddJsonBody(transfer);
 

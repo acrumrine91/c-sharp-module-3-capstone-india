@@ -51,7 +51,7 @@ namespace TenmoServer.DAO
 
         public bool TransferFundsReceiversBalance(decimal amount, int userId)
         {
-            Transfer transfer = new Transfer();
+          
             bool successful = false;
             try
             {
@@ -62,10 +62,10 @@ namespace TenmoServer.DAO
 
                     decimal newBalance = GetBalance(userId);
                     newBalance += amount;
-
+                    // UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID
                     SqlCommand command = new SqlCommand("UPDATE accounts JOIN users ON users.user_id = accounts.user_id SET balance = @newBalance WHERE users.user_id = @UserID", conn);
-                    command.Parameters.AddWithValue("newBalance", newBalance);
-                    command.Parameters.AddWithValue("@UserName", userId);
+                    command.Parameters.AddWithValue("@newBalance", newBalance);
+                    command.Parameters.AddWithValue("@UserID", userId);
 
                     command.ExecuteNonQuery();
                     successful = true;
@@ -80,7 +80,7 @@ namespace TenmoServer.DAO
 
         public bool TransferFundsSendersBalance(decimal amount, int userID)
         {
-            Transfer transfer = new Transfer();
+            
             bool successful = false;
             try
             {
@@ -93,8 +93,8 @@ namespace TenmoServer.DAO
                     newBalance -= amount;
 
                     SqlCommand command = new SqlCommand("UPDATE accounts JOIN users ON users.user_id = accounts.user_id SET balance = @newBalance WHERE users.user_id = @UserID", conn);
-                    command.Parameters.AddWithValue("newBalance", newBalance);
-                    command.Parameters.AddWithValue("@UserName", userID);
+                    command.Parameters.AddWithValue("@newBalance", newBalance);
+                    command.Parameters.AddWithValue("@UserID", userID);
 
                     command.ExecuteNonQuery();
                     successful = true;

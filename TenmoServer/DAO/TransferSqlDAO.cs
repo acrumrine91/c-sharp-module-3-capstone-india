@@ -34,7 +34,7 @@ namespace TenmoServer.DAO
                     command.Parameters.AddWithValue("@amount", amount);
                     command.ExecuteNonQuery();
 
-                    command = new SqlCommand("SELECT @@IDENTITY", conn);
+                   // command = new SqlCommand("SELECT @@IDENTITY", conn);
                     successful = true;
                     return successful;
                 }
