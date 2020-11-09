@@ -148,8 +148,9 @@ namespace TenmoClient
                 API_User user = authService.Login(loginUser);
                 if (user != null)
                 {
-                    UserService.SetLogin(user);
                     this.accountService.UpdateToken(user.Token);
+                    UserService.SetLogin(user);
+                    
                     //will put the method to update token into the service class we create
                 }
             }
