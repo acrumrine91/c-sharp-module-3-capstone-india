@@ -61,9 +61,11 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     decimal newBalance = GetBalance(userId);
-                    newBalance += amount;
-                    // UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID
-                    SqlCommand command = new SqlCommand("UPDATE accounts JOIN users ON users.user_id = accounts.user_id SET balance = @newBalance WHERE users.user_id = @UserID", conn);
+                    newBalance += amount;                   
+
+
+                    SqlCommand command = new SqlCommand("UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID", conn);
+
                     command.Parameters.AddWithValue("@newBalance", newBalance);
                     command.Parameters.AddWithValue("@UserID", userId);
 
@@ -92,7 +94,8 @@ namespace TenmoServer.DAO
                     decimal newBalance = GetBalance(userID);
                     newBalance -= amount;
 
-                    SqlCommand command = new SqlCommand("UPDATE accounts JOIN users ON users.user_id = accounts.user_id SET balance = @newBalance WHERE users.user_id = @UserID", conn);
+                    SqlCommand command = new SqlCommand("UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID", conn);
+                   
                     command.Parameters.AddWithValue("@newBalance", newBalance);
                     command.Parameters.AddWithValue("@UserID", userID);
 

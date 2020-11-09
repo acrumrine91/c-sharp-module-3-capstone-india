@@ -48,24 +48,24 @@ namespace TenmoServer.Controllers
                 if (claim.Type == "sub")
                 {
                     transferFromID = int.Parse(claim.Value);
-                    break;
+
                 }
             }
                 decimal userFromBalance = accountDAO.GetBalance(transferFromID);
-                if (userFromBalance >= transfer.Amount)
+            if (userFromBalance >= transfer.Amount)
+            {
+                try
                 {
-                    try
-                    {
-                        accountDAO.TransferFundsSendersBalance(transfer.Amount, transferFromID);
-                        accountDAO.TransferFundsReceiversBalance(transfer.Amount, transfer.AccountTo);
-                        transferDAO.TransferFunds(transfer.AccountTo, transferFromID, transfer.Amount);
-                        successful = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        return successful;
-                    }
-                }            
+                    accountDAO.TransferFundsSendersBalance(transfer.Amount, transferFromID);
+                    accountDAO.TransferFundsReceiversBalance(transfer.Amount, transfer.AccountTo);
+                    transferDAO.TransferFunds(transfer.AccountTo, transferFromID, transfer.Amount);
+                    successful = true;
+                }
+                catch (Exception ex)
+                {
+                    return successful;
+                }
+            }
             return successful;
         }
 

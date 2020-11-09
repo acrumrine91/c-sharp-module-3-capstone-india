@@ -18,7 +18,7 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public bool TransferFunds(int userTo, int userFrom, decimal amount)
+        public bool TransferFunds(int accountTo, int accountFrom, decimal amount)
         {
             bool successful = false;
             try
@@ -29,8 +29,8 @@ namespace TenmoServer.DAO
                     SqlCommand command = new SqlCommand("INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (@type, @status, @from, @to, @amount)", conn);
                     command.Parameters.AddWithValue("@type", 2);
                     command.Parameters.AddWithValue("@status", 2);
-                    command.Parameters.AddWithValue("@from", userFrom);
-                    command.Parameters.AddWithValue("@to", userTo);
+                    command.Parameters.AddWithValue("@from", accountFrom);
+                    command.Parameters.AddWithValue("@to", accountTo);
                     command.Parameters.AddWithValue("@amount", amount);
                     command.ExecuteNonQuery();
 
