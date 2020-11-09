@@ -74,10 +74,10 @@ namespace TenmoServer.DAO
             }
         }
 
-        public Transfer TransferFunds(int userTo, int userFrom, decimal amount)
+        public Transfer TransferFunds(Transfer transfer)
         {
-            int accountTo = GetAccountId(userTo);
-            int accountFrom = GetAccountId(userFrom);
+            int accountTo = GetAccountId(transfer.AccountTo);
+            int accountFrom = GetAccountId(transfer.AccountFrom);
 
 
             {
@@ -89,7 +89,7 @@ namespace TenmoServer.DAO
                     command.Parameters.AddWithValue("@status", 2001);
                     command.Parameters.AddWithValue("@from", accountFrom);
                     command.Parameters.AddWithValue("@to", accountTo);
-                    command.Parameters.AddWithValue("@amount", amount);
+                    command.Parameters.AddWithValue("@amount", transfer.Amount);
 
                     int id = Convert.ToInt32(command.ExecuteScalar());
                     return new Transfer
@@ -97,7 +97,7 @@ namespace TenmoServer.DAO
                         TransferID = id,
                         TransferType = 1001,
                         TransferStatus = 2001,
-                        Amount = amount,
+                        Amount = transfer.Amount,
                         AccountFrom = accountFrom,
                         AccountTo = accountTo
                     };

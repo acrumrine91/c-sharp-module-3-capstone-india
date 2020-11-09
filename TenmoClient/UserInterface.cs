@@ -178,26 +178,36 @@ namespace TenmoClient
             return allUsers;
 
         }
+        //private void PromptAndAddNewTransfer()
+        //{
+        //    API_Transfer transfer = new API_Transfer();
+        //    Console.WriteLine("---------");
+        //    Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
+        //    transfer.AccountTo = Convert.ToInt32(Console.ReadLine());
+
+        //    Console.WriteLine("Enter amount:");
+        //    transfer.Amount = Convert.ToDecimal(Console.ReadLine());
+
+        //    bool result = this.transferService.TransferTEBucks(transfer.AccountTo, transfer.Amount);
+        //    if(result)
+        //    //if (this.transferService.TransferTEBucks(transfer); 
+
+        //    {
+        //        Console.WriteLine("Transfer Successful");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Transfer Failed");
+        //    }
+        //}
+
         private void PromptAndAddNewTransfer()
         {
-            API_Transfer transfer = new API_Transfer();
-            Console.WriteLine("---------");
-            Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
-            transfer.AccountTo = Convert.ToInt32(Console.ReadLine());
+            API_Transfer transfer = this.consoleService.PromptForTransfer();
 
-            Console.WriteLine("Enter amount:");
-            transfer.Amount = Convert.ToDecimal(Console.ReadLine());
-
-            bool result = this.transferService.TransferTEBucks(transfer.AccountTo, transfer.Amount);
-            if(result)
-            //if (this.transferService.TransferTEBucks(transfer); 
-
+            if (this.transferService.TransferTEBucks(transfer) != null)
             {
-                Console.WriteLine("Transfer Successful");
-            }
-            else
-            {
-                Console.WriteLine("Transfer Failed");
+                Console.WriteLine("Transfer Complete");
             }
         }
         //private void CreateNewTransfer()

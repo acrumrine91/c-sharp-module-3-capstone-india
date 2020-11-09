@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Transactions;
 using TenmoClient.Data;
+
 
 namespace TenmoClient
 {
@@ -27,23 +29,25 @@ namespace TenmoClient
         //}
 
         //private API_User user = new API_User(); sets us up to use the user if we want
-        //public API_Transfer PromptForTransfer()
-        //{
-            
-        //    Console.WriteLine("---------");
-        //    Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
-        //    int userId = Convert.ToInt32(Console.ReadLine());
+        public API_Transfer PromptForTransfer()
+        {
+           
 
-        //    Console.WriteLine("Enter amount:");
-        //    decimal amount = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("---------");
+            Console.WriteLine("Enter ID of user you are sending to (0 to cancel):");
+            int userId = Convert.ToInt32(Console.ReadLine());
 
-        //    return new API_Transfer()
-        //    {
-        //        //AccountFrom = user.UserId,  probably want this here? accountfrom shows up null in SQL
-        //        AccountTo = userId,
-        //        Amount = amount,
-        //    };
-        //}
+            Console.WriteLine("Enter amount:");
+            decimal amount = Convert.ToDecimal(Console.ReadLine());
+
+            return new API_Transfer()
+            {
+                AccountFrom = UserService.UserId,
+                
+                AccountTo = userId,
+                Amount = amount,
+            };
+        }
 
         //public int PromptForUserIDToTransferTo()
         //{
@@ -59,6 +63,7 @@ namespace TenmoClient
         //    return userId;
         //}
 
+        
 
 
         public LoginUser PromptForLogin()

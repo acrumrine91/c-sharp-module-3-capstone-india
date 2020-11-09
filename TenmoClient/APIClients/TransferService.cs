@@ -21,29 +21,24 @@ namespace TenmoClient.APIClients
 
             
         }
-        public bool TransferTEBucks(int userID, decimal amount)
+        public API_Transfer TransferTEBucks(API_Transfer transfer)
 
-        {
-            API_Transfer transfer = new API_Transfer();
-            transfer.AccountTo = userID;
-            transfer.Amount = amount;
+        {           
+          
             RestRequest request = new RestRequest(BASE_URL);
             request.AddJsonBody(transfer);
 
-            IRestResponse<bool> response = client.Post<bool>(request);
+            IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);
 
-            if (response.ResponseStatus != ResponseStatus.Completed)
+            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
             {
-                throw new Exception("An error occurred communicating with the server.");
-            }
-            else if (!response.IsSuccessful)
-            {
-                throw new Exception("An error response was received from the server. The status code is " + (int)response.StatusCode);
-
+                return response.Data;
             }
             else
             {
-                return response.Data;
+                Console.WriteLine("An error occurred attempting to transfer funds");
+
+                return null;
             }
         }
     }    

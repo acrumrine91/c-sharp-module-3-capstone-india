@@ -8,7 +8,7 @@ namespace TenmoServer.DAO
 {
     public interface ITransferDAO
     {
-        Transfer TransferFunds(int userTo, int userFrom, decimal amount);
+        Transfer TransferFunds(Transfer transfer);
 
 
 

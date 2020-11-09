@@ -49,9 +49,9 @@ namespace TenmoServer.DAO
         }
 
 
-        public bool TransferFundsReceiversBalance(decimal amount, int userId)
+        public bool TransferFundsReceiversBalance(Transfer transfer)
         {
-            Transfer transfer = new Transfer();
+            
             bool successful = false;
             try
             {
@@ -60,12 +60,12 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    decimal newBalance = GetBalance(userId);
-                    newBalance += amount;
+                    decimal newBalance = GetBalance(transfer.AccountTo);
+                    newBalance += transfer.Amount;
 
                     SqlCommand command = new SqlCommand("UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID", conn);
                     command.Parameters.AddWithValue("@newBalance", newBalance);
-                    command.Parameters.AddWithValue("@UserID", userId);
+                    command.Parameters.AddWithValue("@UserID", transfer.AccountTo);
 
                     command.ExecuteNonQuery();
                     successful = true;
@@ -78,9 +78,9 @@ namespace TenmoServer.DAO
             }
         }
 
-        public bool TransferFundsSendersBalance(decimal amount, int userID)
+        public bool TransferFundsSendersBalance(Transfer transfer)
         {
-            Transfer transfer = new Transfer();
+            
             bool successful = false;
             try
             {
@@ -89,13 +89,13 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    decimal newBalance = GetBalance(userID);
-                    newBalance -= amount;
+                    decimal newBalance = GetBalance(transfer.AccountFrom);
+                    newBalance -= transfer.Amount;
 
                     SqlCommand command = new SqlCommand("UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID", conn);
 
                     command.Parameters.AddWithValue("@newBalance", newBalance);
-                    command.Parameters.AddWithValue("@UserID", userID);
+                    command.Parameters.AddWithValue("@UserID", transfer.AccountFrom);
 
                     command.ExecuteNonQuery();
                     successful = true;
