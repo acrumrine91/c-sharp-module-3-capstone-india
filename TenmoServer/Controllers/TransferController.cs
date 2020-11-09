@@ -48,10 +48,11 @@ namespace TenmoServer.Controllers
                 if (claim.Type == "sub")
                 {
                     transferFromID = int.Parse(claim.Value);
-                    break;
+
                 }
+            }
                 decimal userFromBalance = accountDAO.GetBalance(transferFromID);
-                if (userFromBalance > transfer.Amount)
+                if (userFromBalance >= transfer.Amount)
                 {
                     try
                     {
@@ -66,7 +67,7 @@ namespace TenmoServer.Controllers
                     }
                 }
 
-            }
+            
             return successful;
 
 

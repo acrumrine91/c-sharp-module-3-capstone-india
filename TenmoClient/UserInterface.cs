@@ -188,8 +188,9 @@ namespace TenmoClient
             Console.WriteLine("Enter amount:");
             transfer.Amount = Convert.ToDecimal(Console.ReadLine());
 
-
-            if (this.transferService.TransferTEBucks(transfer) != null) 
+            bool result = this.transferService.TransferTEBucks(transfer.AccountTo, transfer.Amount);
+            if(result)
+            //if (this.transferService.TransferTEBucks(transfer); 
 
             {
                 Console.WriteLine("Transfer Successful");
