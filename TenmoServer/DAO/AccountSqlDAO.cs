@@ -51,7 +51,7 @@ namespace TenmoServer.DAO
 
         public bool TransferFundsReceiversBalance(Transfer transfer)
         {
-            
+
             bool successful = false;
             try
             {
@@ -63,7 +63,9 @@ namespace TenmoServer.DAO
                     decimal newBalance = GetBalance(transfer.AccountTo);
                     newBalance += transfer.Amount;
 
+
                     SqlCommand command = new SqlCommand("UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID", conn);
+
                     command.Parameters.AddWithValue("@newBalance", newBalance);
                     command.Parameters.AddWithValue("@UserID", transfer.AccountTo);
 
@@ -93,7 +95,7 @@ namespace TenmoServer.DAO
                     newBalance -= transfer.Amount;
 
                     SqlCommand command = new SqlCommand("UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID", conn);
-
+                   
                     command.Parameters.AddWithValue("@newBalance", newBalance);
                     command.Parameters.AddWithValue("@UserID", transfer.AccountFrom);
 
