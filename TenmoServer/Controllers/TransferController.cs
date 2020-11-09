@@ -33,15 +33,15 @@ namespace TenmoServer.Controllers
         {
 
 
-            //decimal userFromBalance = accountDAO.GetBalance(transfer.AccountFrom);
-            //if (userFromBalance >= transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
-            //{
+            decimal userFromBalance = accountDAO.GetBalance(transfer.AccountFrom);
+            if (userFromBalance >= transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
+            {
 
                 accountDAO.TransferFundsSendersBalance(transfer);
                 accountDAO.TransferFundsReceiversBalance(transfer);
                 transferDAO.TransferFunds(transfer);
-            //}
-            
+            }
+
 
             return Created($"/transfer/{transfer.TransferID}", transfer);
 

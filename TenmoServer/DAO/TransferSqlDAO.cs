@@ -85,8 +85,8 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
                     SqlCommand command = new SqlCommand("INSERT INTO transfers VALUES (@type, @status, @from, @to, @amount); SELECT SCOPE_IDENTITY();", conn);
-                    command.Parameters.AddWithValue("@type", 1001);
-                    command.Parameters.AddWithValue("@status", 2001);
+                    command.Parameters.AddWithValue("@type", transfer.TransferType);
+                    command.Parameters.AddWithValue("@status", transfer.TransferStatus);
                     command.Parameters.AddWithValue("@from", accountFrom);
                     command.Parameters.AddWithValue("@to", accountTo);
                     command.Parameters.AddWithValue("@amount", transfer.Amount);
@@ -96,8 +96,8 @@ namespace TenmoServer.DAO
                     return new Transfer
                     {
                         TransferID = id,
-                        TransferType = 1001,
-                        TransferStatus = 2001,
+                        TransferType = transfer.TransferType,
+                        TransferStatus = transfer.TransferStatus,
                         Amount = transfer.Amount,
                         AccountFrom = accountFrom,
                         AccountTo = accountTo
