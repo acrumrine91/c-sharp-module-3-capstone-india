@@ -26,7 +26,9 @@ namespace TenmoServer.DAO
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("SELECT user_id, username, password_hash, salt FROM users WHERE username = @username", conn);
+
                 cmd.Parameters.AddWithValue("@username", username);
+
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
@@ -47,7 +49,9 @@ namespace TenmoServer.DAO
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE user_id = @UserID", conn);
+
                 cmd.Parameters.AddWithValue("@UserID", userID);
+
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
@@ -58,7 +62,7 @@ namespace TenmoServer.DAO
 
             return user;
         }
-
+        //removed references to passwordhash and salt to prevent them from showing up in Postman /allusers 
         public List<User> GetUsers()
         {
             List<User> returnUsers = new List<User>();
@@ -67,7 +71,8 @@ namespace TenmoServer.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT user_id, username, password_hash, salt FROM users", conn);
+                SqlCommand cmd = new SqlCommand("SELECT user_id, username FROM users", conn);
+
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.HasRows)
@@ -117,8 +122,8 @@ namespace TenmoServer.DAO
             {
                 UserId = Convert.ToInt32(reader["user_id"]),
                 Username = Convert.ToString(reader["username"]),
-                PasswordHash = Convert.ToString(reader["password_hash"]),
-                Salt = Convert.ToString(reader["salt"]),
+                //PasswordHash = Convert.ToString(reader["password_hash"]), 
+                //Salt = Convert.ToString(reader["salt"]),
             };
         }
     }

@@ -15,9 +15,6 @@ namespace TenmoClient.APIClients
         private readonly string BASE_URL;
         private readonly RestClient client;
 
-
-
-
         public AccountService()
         {
             this.BASE_URL = AuthService.API_BASE_URL + "accounts";
@@ -55,10 +52,8 @@ namespace TenmoClient.APIClients
             }
         }
 
-
         public decimal GetBalance()
         {
-
             RestRequest request = new RestRequest(BASE_URL + "/balance");
 
             IRestResponse<decimal> response = client.Get<decimal>(request);
@@ -77,10 +72,10 @@ namespace TenmoClient.APIClients
                 return response.Data;
             }
         }
-
         public API_Transfer TransferTEBucks(API_Transfer transfer)
         {
             RestRequest request = new RestRequest(BASE_URL + "/transfer");
+
             request.AddJsonBody(transfer);
 
             IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);
@@ -116,14 +111,16 @@ namespace TenmoClient.APIClients
         public Dictionary<string, string> GetTransferByID(int id)
         {
             RestRequest request = new RestRequest(BASE_URL + "/transfer/history/" + id);
+
             IRestResponse <Dictionary<string, string> > response = client.Get <Dictionary<string, string>>(request);
+
             if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
             {
                 return response.Data;
             }
             else
             {
-                Console.WriteLine("An error occured getting all transfer.");
+                Console.WriteLine("An error occured getting your transfer.");
 
                 return null;
             }

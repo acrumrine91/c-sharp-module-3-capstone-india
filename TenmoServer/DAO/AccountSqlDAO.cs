@@ -30,10 +30,11 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("SELECT balance FROM accounts WHERE user_id = @UserID", conn);
+
                     cmd.Parameters.AddWithValue("@UserID", userId);
 
 
-                    SqlDataReader reader = cmd.ExecuteReader(); //scaler?
+                    SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -61,6 +62,7 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     decimal newBalance = GetBalance(transfer.AccountTo);
+
                     newBalance += transfer.Amount;
 
 
@@ -92,6 +94,7 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     decimal newBalance = GetBalance(transfer.AccountFrom);
+
                     newBalance -= transfer.Amount;
 
                     SqlCommand command = new SqlCommand("UPDATE accounts SET balance = @newBalance WHERE user_id = @UserID", conn);

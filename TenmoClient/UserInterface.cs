@@ -62,9 +62,9 @@ namespace TenmoClient
                 Console.WriteLine("Welcome to TEnmo! Please make a selection: ");
                 Console.WriteLine("1: View your current balance");
                 Console.WriteLine("2: View your past transfers");
-                Console.WriteLine("3: View your pending requests");
+                Console.WriteLine("3: View your pending requests - (Coming Soon!)");
                 Console.WriteLine("4: Send TE bucks");
-                Console.WriteLine("5: Request TE bucks");
+                Console.WriteLine("5: Request TE bucks - (Coming Soon!)");
                 Console.WriteLine("6: Log in as different user");
                 Console.WriteLine("0: Exit");
                 Console.WriteLine("---------");
@@ -87,20 +87,19 @@ namespace TenmoClient
                             DisplayAllTransferForUser();
                             DisplayTransferDetails();
                             Console.WriteLine();
-
                             break;
                         case 3:
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            Console.Clear();
+                            Console.WriteLine("Look for this feature in a future update!");
                             break;
                         case 4:
                             Console.Clear();
                             DisplayAllUsers();
                             PromptAndAddNewTransfer();
                             Console.WriteLine();
-
                             break;
                         case 5:
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            Console.WriteLine("Look for this feature in a future update!");
                             break;
                         case 6:
                             Console.WriteLine();
@@ -126,6 +125,7 @@ namespace TenmoClient
             while (!isRegistered) //will keep looping until user is registered
             {
                 LoginUser registerUser = consoleService.PromptForLogin();
+
                 isRegistered = authService.Register(registerUser);
             }
 
@@ -133,14 +133,12 @@ namespace TenmoClient
             Console.WriteLine("Registration successful. You can now log in.");
         }
 
-
-
-
         private void HandleUserLogin()
         {
             while (!UserService.IsLoggedIn) //will keep looping until user is logged in
             {
                 LoginUser loginUser = consoleService.PromptForLogin();
+
                 API_User user = authService.Login(loginUser);
                 if (user != null)
                 {
@@ -175,6 +173,7 @@ namespace TenmoClient
             Console.WriteLine("-------------------------------------------");
 
             List<API_User> allUsers = accountService.GetAllUserAccounts();
+
             foreach (API_User user in allUsers)
             {
                 if (user.UserId != UserService.UserId())
@@ -187,7 +186,9 @@ namespace TenmoClient
         private void PromptAndAddNewTransfer()
         {
             API_Transfer transfer = this.consoleService.PromptForTransfer();
+
             decimal balance = accountService.GetBalance();
+
             if (this.accountService.TransferTEBucks(transfer) != null)
             {
                 if (balance < transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
@@ -217,9 +218,7 @@ namespace TenmoClient
             List<string> allTransfers = accountService.GetAllTransfersForUser();
             foreach (string transferListing in allTransfers)
             {
-
                 Console.WriteLine(transferListing);
-
             }
         }
 
@@ -227,13 +226,20 @@ namespace TenmoClient
         {
             int transferID = consoleService.PromptForTransferID();
             Dictionary<string, string> transferDetail = accountService.GetTransferByID(transferID);
+            Console.Clear();
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine("Transfer Details");
             Console.WriteLine("-------------------------------------------");
             foreach (KeyValuePair<string, string> kvp in transferDetail)
             {
-                Console.Write(kvp.Key);
-                Console.WriteLine(kvp.Value);
+                if (transferDetail.ContainsKey(transferID.ToString()))
+                {
+                    Console.Write(kvp.Key);
+                    Console.WriteLine(kvp.Value);
+                }
+                else
+
+                    Console.WriteLine("Please enter a valid transaction ID");
             }
 
 

@@ -30,7 +30,6 @@ namespace TenmoClient
         }
         public API_Transfer PromptForTransfer()
         {
-
             Console.WriteLine("---------");
             Console.WriteLine();
             Console.Write("Enter ID of user you are sending to (0 to cancel): ");
@@ -48,8 +47,6 @@ namespace TenmoClient
             };
         }
 
-
-
         public LoginUser PromptForLogin()
         {
             Console.Write("Username: ");
@@ -62,7 +59,6 @@ namespace TenmoClient
                 Password = password
             };
         }
-
         private string GetPasswordFromConsole(string displayMessage)
         {
             string pass = "";

@@ -42,7 +42,6 @@ namespace TenmoServer.Controllers
             }
         }
 
-
         [HttpGet("balance")]
         public decimal GetBalance()
         {
@@ -51,6 +50,7 @@ namespace TenmoServer.Controllers
             return accountBalance;
 
         }
+
 
         [HttpGet("allusers")]
         public ActionResult<List<User>> GetAllUsers()
@@ -63,6 +63,7 @@ namespace TenmoServer.Controllers
         public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
         {
             decimal userFromBalance = accountDAO.GetBalance(transfer.AccountFrom);
+
             if (userFromBalance >= transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
             {
 
@@ -74,12 +75,17 @@ namespace TenmoServer.Controllers
             return Created($"/transfer/{transfer.TransferID}", transfer);
 
         }
+
+
         [HttpGet("transfer/history")]
         public ActionResult<List<string>> GetTransferHistoryForUser()
         {
             List<Transfer> transfers = transferDAO.FullListofUserTransfers(userId);
+
             List<string> displayStringList = new List<string>();
+
             int accountID = transferDAO.GetAccountId(userId);
+
             User user = new User();
 
             foreach (Transfer transfer in transfers)
@@ -114,10 +120,15 @@ namespace TenmoServer.Controllers
         public ActionResult<Dictionary<string, string>> GetTransferDetailsByID(int id)
         {
             Transfer transfer = this.transferDAO.GetTransferByID(id, userId);
+
             Dictionary<string, string> displayDictionary = new Dictionary<string, string>();
+
             int accountID = transferDAO.GetAccountId(userId);
+
             User userTo = new User();
+
             User userFrom = new User();
+
             if (transfer.AccountFrom == accountID)
             {
                 int otherPersonID = transferDAO.GetUserId(transfer.AccountTo);

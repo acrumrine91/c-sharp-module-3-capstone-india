@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TenmoServer.Models
 {
+    //could remove this class
     public class Account
     {
         public int AccountID { get; set; } 

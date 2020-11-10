@@ -28,9 +28,11 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("SELECT account_id FROM accounts WHERE user_id = @userId", conn);
+
                     cmd.Parameters.AddWithValue("@userId", user_id);
 
                     SqlDataReader reader = cmd.ExecuteReader();
+
                     while (reader.Read())
                     {
                         result = Convert.ToInt32(reader["account_id"]);
@@ -47,6 +49,7 @@ namespace TenmoServer.DAO
         public int GetUserId(int accountTo)
         {
             int result = -1;
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -54,9 +57,11 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("SELECT user_id FROM accounts WHERE account_id = @accountTo", conn);
+
                     cmd.Parameters.AddWithValue("@accountTo", accountTo);
 
                     SqlDataReader reader = cmd.ExecuteReader();
+
                     while (reader.Read())
                     {
                         result = Convert.ToInt32(reader["user_id"]);
@@ -81,6 +86,7 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
                     SqlCommand command = new SqlCommand("INSERT INTO transfers VALUES (@type, @status, @from, @to, @amount); SELECT SCOPE_IDENTITY();", conn);
+
                     command.Parameters.AddWithValue("@type", transfer.TransferType);
                     command.Parameters.AddWithValue("@status", transfer.TransferStatus);
                     command.Parameters.AddWithValue("@from", accountFrom);
@@ -89,6 +95,7 @@ namespace TenmoServer.DAO
 
 
                     int id = Convert.ToInt32(command.ExecuteScalar());
+
                     return new Transfer
                     {
                         TransferID = id,
@@ -150,6 +157,7 @@ namespace TenmoServer.DAO
         {
             Transfer transfer = new Transfer();
             int accountID = GetAccountId(userID);
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
