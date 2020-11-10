@@ -38,7 +38,7 @@ namespace TenmoServer.DAO
                     return result;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return result;
             }
@@ -64,7 +64,7 @@ namespace TenmoServer.DAO
                     return result;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return result;
             }
@@ -146,8 +146,47 @@ namespace TenmoServer.DAO
             }
 
         }
+        public Transfer GetTransferByID(int transferID, int userID)
+        {
+            Transfer transfer = new Transfer();
+            int accountID = GetAccountId(userID);
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM transfers WHERE transfer_id = @TransferID AND (account_from = @AccountID OR account_to = @AccountID)", conn);
+                    cmd.Parameters.AddWithValue("@TransferID", transferID);
+                    cmd.Parameters.AddWithValue("@AccountID", accountID);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+
+                        transfer.TransferID = Convert.ToInt32(reader["transfer_id"]);
+                        transfer.TransferType = (TransferType)Convert.ToInt32(reader["transfer_id"]);
+                        transfer.TransferStatus = (TransferStatus)Convert.ToInt32(reader["transfer_status_id"]);
+                        transfer.AccountFrom = Convert.ToInt32(reader["account_from"]);
+                        transfer.AccountTo = Convert.ToInt32(reader["account_to"]);
+                        transfer.Amount = Convert.ToDecimal(reader["amount"]);
+
+                    }
+                }
+                return transfer;
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+
+        }
 
     }
+
 }
+
 
 

@@ -85,8 +85,9 @@ namespace TenmoClient
                         case 2:
                             Console.Clear();
                             DisplayAllTransferForUser();
+                            DisplayTransferDetails();
                             Console.WriteLine();
-                           
+
                             break;
                         case 3:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -96,7 +97,7 @@ namespace TenmoClient
                             DisplayAllUsers();
                             PromptAndAddNewTransfer();
                             Console.WriteLine();
-                           
+
                             break;
                         case 5:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -216,10 +217,26 @@ namespace TenmoClient
             List<string> allTransfers = accountService.GetAllTransfersForUser();
             foreach (string transferListing in allTransfers)
             {
-                
+
                 Console.WriteLine(transferListing);
-                
+
             }
+        }
+
+        public void DisplayTransferDetails()
+        {
+            int transferID = consoleService.PromptForTransferID();
+            Dictionary<string, string> transferDetail = accountService.GetTransferByID(transferID);
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("Transfer Details");
+            Console.WriteLine("-------------------------------------------");
+            foreach (KeyValuePair<string, string> kvp in transferDetail)
+            {
+                Console.Write(kvp.Key);
+                Console.WriteLine(kvp.Value);
+            }
+
+
         }
     }
 }

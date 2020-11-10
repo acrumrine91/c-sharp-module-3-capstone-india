@@ -16,6 +16,8 @@ namespace TenmoServer.DAO
 
         List<Transfer> FullListofUserTransfers(int userID);
 
+        Transfer GetTransferByID(int transferID, int userID);
+
 
 
 

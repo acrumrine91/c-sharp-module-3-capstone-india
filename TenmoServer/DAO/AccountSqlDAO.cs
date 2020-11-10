@@ -42,7 +42,7 @@ namespace TenmoServer.DAO
                     return balance;
                 }
             }
-            catch (SqlException ex)
+            catch (SqlException)
             {
                 return balance;
             }
@@ -74,7 +74,7 @@ namespace TenmoServer.DAO
                     return successful;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return successful;
             }
@@ -104,7 +104,7 @@ namespace TenmoServer.DAO
                     return successful;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return successful;
             }

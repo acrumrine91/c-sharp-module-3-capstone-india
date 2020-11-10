@@ -85,7 +85,7 @@ namespace TenmoServer.Controllers
             foreach (Transfer transfer in transfers)
             {
                 if (transfer.AccountFrom == accountID)
-                {                    
+                {
                     int otherPersonID = transferDAO.GetUserId(transfer.AccountTo);
                     user = userDAO.GetName(otherPersonID);
                     string userName = user.Username;
@@ -109,14 +109,53 @@ namespace TenmoServer.Controllers
             }
             return displayStringList;
 
+        }
+        [HttpGet("transfer/history/{id}")]
+        public ActionResult<Dictionary<string, string>> GetTransferDetailsByID(int id)
+        {
+            Transfer transfer = this.transferDAO.GetTransferByID(id, userId);
+            Dictionary<string, string> displayDictionary = new Dictionary<string, string>();
+            int accountID = transferDAO.GetAccountId(userId);
+            User userTo = new User();
+            User userFrom = new User();
+            if (transfer.AccountFrom == accountID)
+            {
+                int otherPersonID = transferDAO.GetUserId(transfer.AccountTo);
+                userTo = userDAO.GetName(otherPersonID);
+                string userToName = userTo.Username;
+                userFrom = userDAO.GetName(userId);
+                string userFromName = userFrom.Username;
 
+                displayDictionary["Id: "] = transfer.TransferID.ToString();
+                displayDictionary["From: "] = userFromName;
+                displayDictionary["To: "] = userToName;
+                displayDictionary["Type: "] = transfer.TransferType.ToString();
+                displayDictionary["Status: "] = transfer.TransferStatus.ToString();
+                displayDictionary["Amount: "] = transfer.Amount.ToString("C");
 
+            }
+            else if (transfer.AccountTo == accountID)
+            {
+                int otherPersonID = transferDAO.GetUserId(transfer.AccountTo);
+                userTo = userDAO.GetName(otherPersonID);
+                string userToName = userTo.Username;
+                userFrom = userDAO.GetName(userId);
+                string userFromName = userFrom.Username;
 
+                displayDictionary["Id: "] = transfer.TransferID.ToString();
+                displayDictionary["From: "] = userFromName;
+                displayDictionary["To: "] = userToName;
+                displayDictionary["Type: "] = transfer.TransferType.ToString();
+                displayDictionary["Status: "] = transfer.TransferStatus.ToString();
+                displayDictionary["Amount: "] = transfer.Amount.ToString("C");
+            }
 
+            if (transfer == null)
+            {
+                return NotFound();
+            }
 
-
-
-
+            return Ok(displayDictionary);
 
         }
 

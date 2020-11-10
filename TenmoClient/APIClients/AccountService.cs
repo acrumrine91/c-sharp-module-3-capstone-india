@@ -51,7 +51,7 @@ namespace TenmoClient.APIClients
             {
                 Console.WriteLine("An error occured getting all users.");
 
-                return new List<API_User>();
+                return null;
             }
         }
 
@@ -110,9 +110,23 @@ namespace TenmoClient.APIClients
             {
                 Console.WriteLine("An error occured getting all transfer.");
 
-                return new List<string>();
+                return null;
             }
         }
+        public Dictionary<string, string> GetTransferByID(int id)
+        {
+            RestRequest request = new RestRequest(BASE_URL + "/transfer/history/" + id);
+            IRestResponse <Dictionary<string, string> > response = client.Get <Dictionary<string, string>>(request);
+            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
+            {
+                return response.Data;
+            }
+            else
+            {
+                Console.WriteLine("An error occured getting all transfer.");
 
+                return null;
+            }
+        }
     }
 }
