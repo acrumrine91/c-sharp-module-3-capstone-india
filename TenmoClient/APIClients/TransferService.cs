@@ -9,42 +9,40 @@ namespace TenmoClient.APIClients
 {
     public class TransferService
     {
-        private readonly string BASE_URL;
-        private readonly RestClient client;
-        //private string token;
-        
-
-        public TransferService()
-        {
-            this.BASE_URL = AuthService.API_BASE_URL + "transfer";
-
-            this.client = new RestClient();
-            //this.token = UserService.Token;
-            //client.Authenticator = new JwtAuthenticator(token);
-
-            
-        }
-
-        public API_Transfer TransferTEBucks(API_Transfer transfer)
+        //    private readonly string BASE_URL;
+        //    private readonly RestClient client;
 
 
-        {           
-          
-            RestRequest request = new RestRequest(BASE_URL);
-            request.AddJsonBody(transfer);
 
-            IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);
+        //    public TransferService()
+        //    {
+        //        this.BASE_URL = AuthService.API_BASE_URL + "transfer";
 
-            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
-            {
-                return response.Data;
-            }
-            else
-            {
-                Console.WriteLine("An error occurred attempting to transfer funds");
+        //        this.client = new RestClient();
 
-                return null;
-            }
-        }
-    }    
+        //    }
+
+        //    public API_Transfer TransferTEBucks(API_Transfer transfer)
+
+
+        //    {           
+
+        //        RestRequest request = new RestRequest(BASE_URL);
+        //        request.AddJsonBody(transfer);
+
+        //        IRestResponse<API_Transfer> response = client.Post<API_Transfer>(request);
+
+        //        if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
+        //        {
+        //            return response.Data;
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("An error occurred attempting to transfer funds");
+
+        //            return null;
+        //        }
+        //    }
+        //}    
+    }
 }

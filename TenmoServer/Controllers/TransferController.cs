@@ -10,42 +10,43 @@ using TenmoServer.Models;
 
 namespace TenmoServer.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
-    //[Authorize]
-    public class TransferController : ControllerBase
-    {
-        private readonly ITransferDAO transferDAO;
-        private readonly IAccountDAO accountDAO;
-        private readonly IUserDAO userDAO;
-        //public string userName => User.Identity.Name;
+    //    [Route("[controller]")]
+    //    [ApiController]
+    //    //[Authorize]
+    //    public class TransferController : ControllerBase
+    //    {
+    //        private readonly ITransferDAO transferDAO;
+    //        private readonly IAccountDAO accountDAO;
+    //        private readonly IUserDAO userDAO;
+    //        //public string userName => User.Identity.Name;
 
-        public TransferController(IAccountDAO accountDAO, ITransferDAO transferDAO, IUserDAO userDAO)
-        {
-            this.accountDAO = accountDAO;
-            this.transferDAO = transferDAO;
-            this.userDAO = userDAO;
-        }
-
-
-        [HttpPost]
-        public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
-        {
+    //        public TransferController(IAccountDAO accountDAO, ITransferDAO transferDAO, IUserDAO userDAO)
+    //        {
+    //            this.accountDAO = accountDAO;
+    //            this.transferDAO = transferDAO;
+    //            this.userDAO = userDAO;
+    //        }
 
 
-            decimal userFromBalance = accountDAO.GetBalance(transfer.AccountFrom);
-            if (userFromBalance >= transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
-            {
-
-                accountDAO.TransferFundsSendersBalance(transfer);
-                accountDAO.TransferFundsReceiversBalance(transfer);
-                transferDAO.TransferFunds(transfer);
-            }
+    //        [HttpPost]
+    //        public ActionResult<Transfer> TransferMoneyToUser(Transfer transfer)
+    //        {
 
 
-            return Created($"/transfer/{transfer.TransferID}", transfer);
+    //            decimal userFromBalance = accountDAO.GetBalance(transfer.AccountFrom);
+    //            if (userFromBalance >= transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
+    //            {
+
+    //                accountDAO.TransferFundsSendersBalance(transfer);
+    //                accountDAO.TransferFundsReceiversBalance(transfer);
+    //                transferDAO.TransferFunds(transfer);
+    //            }
 
 
-        }
-    }
+    //            return Created($"/transfer/{transfer.TransferID}", transfer);
+
+
+    //        }
+    //    }
+    //}
 }

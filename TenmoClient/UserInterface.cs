@@ -18,7 +18,7 @@ namespace TenmoClient
         {
             while (!shouldExit)
             {
-                while (!authService.IsLoggedIn)
+                while (!UserService.IsLoggedIn)
                 {
                     ShowLogInMenu();
                 }
@@ -99,12 +99,15 @@ namespace TenmoClient
                         case 6:
                             Console.WriteLine();
                             UserService.SetLogin(new API_User()); //wipe out previous login info
-                            HandleUserLogin();
-                            break;
-                        default:
+                            this.accountService.UpdateToken(null);
+                            return;
+                        case 0:
                             Console.WriteLine("Goodbye!");
                             shouldExit = true;
                             return;
+                        default:
+                            Console.WriteLine("That's not a valid choice. Try again.");
+                            break;
                     }
                 }
             }
@@ -123,6 +126,27 @@ namespace TenmoClient
             Console.WriteLine("");
             Console.WriteLine("Registration successful. You can now log in.");
         }
+        
+
+
+
+        private void HandleUserLogin()
+        {
+            while (!UserService.IsLoggedIn) //will keep looping until user is logged in
+            {
+                LoginUser loginUser = consoleService.PromptForLogin();
+                API_User user = authService.Login(loginUser);
+                if (user != null)
+                {
+                    UserService.SetLogin(user);
+                    this.accountService.UpdateToken(user.Token);
+                    Console.Clear();
+
+                    //will put the method to update token into the service class we create
+                }
+            }
+        }
+
         private void DisplayBalance()
         {
             decimal balance = accountService.GetBalance();
@@ -138,26 +162,6 @@ namespace TenmoClient
             }
         }
 
-
-
-        private void HandleUserLogin()
-        {
-            while (!UserService.IsLoggedIn) //will keep looping until user is logged in
-            {
-                LoginUser loginUser = consoleService.PromptForLogin();
-                API_User user = authService.Login(loginUser);
-                if (user != null)
-                {
-                    this.accountService.UpdateToken(user.Token);
-                    UserService.SetLogin(user);
-                    Console.Clear();
-
-                    //will put the method to update token into the service class we create
-                }
-            }
-        }
-
-
         private void PromptAndAddNewTransfer()
         {
             Console.WriteLine("-------------------------------------------");
@@ -168,7 +172,7 @@ namespace TenmoClient
             List<API_User> allUsers = accountService.GetAllUserAccounts();
             foreach (API_User user in allUsers)
             {
-                if (user.UserId != UserService.UserId)
+                if (user.UserId != UserService.UserId())
                 {
                     Console.WriteLine(user.UserId + "\t\t" + user.Username);
                 }
@@ -178,7 +182,7 @@ namespace TenmoClient
 
             API_Transfer transfer = this.consoleService.PromptForTransfer();
             decimal balance = accountService.GetBalance();
-            if (this.transferService.TransferTEBucks(transfer) != null)
+            if (this.accountService.TransferTEBucks(transfer) != null)
             {
                 if (balance < transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
                 {

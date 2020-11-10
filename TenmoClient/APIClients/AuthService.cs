@@ -10,13 +10,13 @@ namespace TenmoClient
         public const string API_BASE_URL = "https://localhost:44315/";
         private readonly IRestClient client = new RestClient();
 
-        public bool IsLoggedIn
-        {
-            get
-            {
-                return client.Authenticator != null;
-            }
-        }
+        //public bool IsLoggedIn
+        //{
+        //    get
+        //    {
+        //        return client.Authenticator != null;
+        //    }
+        //}
 
         //login endpoints
         public bool Register(LoginUser registerUser)

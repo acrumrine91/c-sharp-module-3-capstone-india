@@ -14,21 +14,7 @@ namespace TenmoClient
         /// </summary>
         /// <param name="action">String to print in prompt. Expected values are "Approve" or "Reject" or "View"</param>
         /// <returns>ID of transfers to view, approve, or reject</returns>
-        //public int PromptForTransferID(/*string action*/)
-        //{
-        //    Console.WriteLine("");
-        //    Console.Write($"Please enter transfer ID to action (0 to cancel): ");
-
-        //    if (!int.TryParse(Console.ReadLine(), out int userId))
-        //    {
-        //        Console.WriteLine("Invalid input. Only input a number.");
-        //        return 0;
-        //    }
-
-        //    return userId;
-        //}
-
-        //private API_User user = new API_User(); sets us up to use the user if we want
+        
         public API_Transfer PromptForTransfer()
         {
 
@@ -43,29 +29,14 @@ namespace TenmoClient
 
             return new API_Transfer()
             {
-                AccountFrom = UserService.UserId,
+                AccountFrom = UserService.UserId(),
                 
                 AccountTo = userId,
                 Amount = amount,
             };
         }
 
-        //public int PromptForUserIDToTransferTo()
-        //{
-        //    Console.WriteLine("");
-        //    Console.Write("Please enter the user ID to transfer to (0 to cancel): ");
-
-        //    if (!int.TryParse(Console.ReadLine(), out int userId))
-        //    {
-        //        Console.WriteLine("Invalid input. Only input a number.");
-        //        return 0;
-        //    }
-
-        //    return userId;
-        //}
-
-        
-
+     
 
         public LoginUser PromptForLogin()
         {
@@ -112,19 +83,6 @@ namespace TenmoClient
 
             return pass;
         }
-
-        //public decimal AmountForTransfer()
-        //{
-        //    Console.WriteLine("");
-        //    Console.WriteLine("Enter amount : ");
-        //    if (!decimal.TryParse(Console.ReadLine(), out decimal amount))
-        //    {
-        //        Console.WriteLine("Invalid input. Only input a number.");
-        //        return 0;
-        //    }
-
-        //    return amount;
-        //}
 
     }
 
