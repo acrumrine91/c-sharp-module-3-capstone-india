@@ -10,7 +10,7 @@ namespace TenmoClient
         private readonly ConsoleService consoleService = new ConsoleService();
         private readonly AuthService authService = new AuthService();
         private readonly AccountService accountService = new AccountService();
-        private readonly TransferService transferService = new TransferService();
+        //private readonly TransferService transferService = new TransferService();
 
         private bool shouldExit = false;
 
@@ -83,15 +83,20 @@ namespace TenmoClient
                             DisplayBalance();
                             break;
                         case 2:
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            Console.Clear();
+                            DisplayAllTransferForUser();
+                            Console.WriteLine();
+                           
                             break;
                         case 3:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
                         case 4:
                             Console.Clear();
-                            //DisplayAllUsers();
+                            DisplayAllUsers();
                             PromptAndAddNewTransfer();
+                            Console.WriteLine();
+                           
                             break;
                         case 5:
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -126,7 +131,7 @@ namespace TenmoClient
             Console.WriteLine("");
             Console.WriteLine("Registration successful. You can now log in.");
         }
-        
+
 
 
 
@@ -151,18 +156,17 @@ namespace TenmoClient
         {
             decimal balance = accountService.GetBalance();
 
-
-            if (balance != null)
-            {
-                Console.WriteLine("Your account balance is: " + balance.ToString("C"));
-            }
-            else
-            {
-                Console.WriteLine("There was no balance available to display.");
-            }
+            //if (balance != null)
+            //{
+            Console.WriteLine("Your account balance is: " + balance.ToString("C"));
+            //}
+            //else
+            //{
+            //    Console.WriteLine("There was no balance available to display.");
+            //}
         }
 
-        private void PromptAndAddNewTransfer()
+        private void DisplayAllUsers()
         {
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine("Users");
@@ -177,9 +181,10 @@ namespace TenmoClient
                     Console.WriteLine(user.UserId + "\t\t" + user.Username);
                 }
             }
+        }
 
-
-
+        private void PromptAndAddNewTransfer()
+        {
             API_Transfer transfer = this.consoleService.PromptForTransfer();
             decimal balance = accountService.GetBalance();
             if (this.accountService.TransferTEBucks(transfer) != null)
@@ -202,6 +207,21 @@ namespace TenmoClient
             }
 
         }
+        private void DisplayAllTransferForUser()
+        {
+            Console.WriteLine("------------------------------------------------");
+            Console.WriteLine("Transfers");
+            Console.WriteLine("ID\t\tFrom/To\t\t\tAmount");
+            Console.WriteLine("------------------------------------------------");
+            List<string> allTransfers = accountService.GetAllTransfersForUser();
+            foreach (string transferListing in allTransfers)
+            {
+                
+                Console.WriteLine(transferListing);
+                
+            }
+        }
     }
 }
+
 

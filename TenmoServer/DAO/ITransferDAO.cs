@@ -10,6 +10,12 @@ namespace TenmoServer.DAO
     {
         Transfer TransferFunds(Transfer transfer);
 
+        int GetUserId(int accountTo);
+
+        int GetAccountId(int user_id);
+
+        List<Transfer> FullListofUserTransfers(int userID);
+
 
 
 

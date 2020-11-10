@@ -18,36 +18,6 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        //public bool TransferFunds(int userTo, int userFrom, decimal amount)
-        //{
-        //    int accountTo = GetAccountId(userTo);
-        //    int accountFrom = GetAccountId(userFrom);
-
-        //    bool successful = false;
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
-        //            SqlCommand command = new SqlCommand("INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (@type, @status, @from, @to, @amount)", conn);
-        //            command.Parameters.AddWithValue("@type", 1001);
-        //            command.Parameters.AddWithValue("@status", 2001);
-        //            command.Parameters.AddWithValue("@from", accountFrom);
-        //            command.Parameters.AddWithValue("@to", accountTo);
-        //            command.Parameters.AddWithValue("@amount", amount);
-        //            command.ExecuteNonQuery();
-
-        //            //command = new SqlCommand("SELECT @@IDENTITY", conn);
-        //            successful = true;
-        //            return successful;
-        //        }
-        //    }
-        //    catch (SqlException ex)
-        //    {
-        //        return successful;
-        //    }
-
-        //}
         public int GetAccountId(int user_id)
         {
             int result = -1;
@@ -64,6 +34,32 @@ namespace TenmoServer.DAO
                     while (reader.Read())
                     {
                         result = Convert.ToInt32(reader["account_id"]);
+                    }
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return result;
+            }
+        }
+
+        public int GetUserId(int accountTo)
+        {
+            int result = -1;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT user_id FROM accounts WHERE account_id = @accountTo", conn);
+                    cmd.Parameters.AddWithValue("@accountTo", accountTo);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        result = Convert.ToInt32(reader["user_id"]);
                     }
                     return result;
                 }
@@ -110,7 +106,46 @@ namespace TenmoServer.DAO
 
 
         }
+        public List<Transfer> FullListofUserTransfers(int userID)
+        {
+            int accountID = GetAccountId(userID);
+            List<Transfer> transferList = new List<Transfer>();
 
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM transfers WHERE account_from = @accountID OR account_to = @accountID", conn);
+                    cmd.Parameters.AddWithValue("@accountID", accountID);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        Transfer transfer = new Transfer();
+
+                        transfer.TransferID = Convert.ToInt32(reader["transfer_id"]);
+                        transfer.TransferType = (TransferType)Convert.ToInt32(reader["transfer_id"]);
+                        transfer.TransferStatus = (TransferStatus)Convert.ToInt32(reader["transfer_status_id"]);
+                        transfer.AccountFrom = Convert.ToInt32(reader["account_from"]);
+                        transfer.AccountTo = Convert.ToInt32(reader["account_to"]);
+                        transfer.Amount = Convert.ToDecimal(reader["amount"]);
+
+                        transferList.Add(transfer);
+
+                    }
+                }
+                return transferList;
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+
+        }
 
     }
 }
