@@ -71,8 +71,7 @@ namespace TenmoServer.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT user_id, username FROM users", conn);
-
+                SqlCommand cmd = new SqlCommand("SELECT user_id, username, password_hash, salt FROM users", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.HasRows)
@@ -122,8 +121,8 @@ namespace TenmoServer.DAO
             {
                 UserId = Convert.ToInt32(reader["user_id"]),
                 Username = Convert.ToString(reader["username"]),
-                //PasswordHash = Convert.ToString(reader["password_hash"]), 
-                //Salt = Convert.ToString(reader["salt"]),
+                PasswordHash = Convert.ToString(reader["password_hash"]), 
+                Salt = Convert.ToString(reader["salt"]),
             };
         }
     }

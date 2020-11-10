@@ -69,7 +69,7 @@ namespace TenmoServer.DAO
                     return result;
                 }
             }
-            catch (Exception)
+            catch (SqlException)
             {
                 return result;
             }
@@ -80,7 +80,7 @@ namespace TenmoServer.DAO
             int accountTo = GetAccountId(transfer.AccountTo);
             int accountFrom = GetAccountId(transfer.AccountFrom);
 
-
+            try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -108,8 +108,14 @@ namespace TenmoServer.DAO
 
                 }
 
-
             }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Please enter a valid user ID to transfer to!" + ex.Message);
+                return transfer;
+            }
+        
+    
 
 
         }
@@ -175,7 +181,7 @@ namespace TenmoServer.DAO
                     {
 
                         transfer.TransferID = Convert.ToInt32(reader["transfer_id"]);
-                        transfer.TransferType = (TransferType)Convert.ToInt32(reader["transfer_id"]);
+                        transfer.TransferType = (TransferType)Convert.ToInt32(reader["transfer_type_id"]);
                         transfer.TransferStatus = (TransferStatus)Convert.ToInt32(reader["transfer_status_id"]);
                         transfer.AccountFrom = Convert.ToInt32(reader["account_from"]);
                         transfer.AccountTo = Convert.ToInt32(reader["account_to"]);

@@ -31,9 +31,12 @@ namespace TenmoClient
         private void ShowLogInMenu()
         {
             Console.WriteLine("Welcome to TEnmo!");
+            Console.WriteLine();
             Console.WriteLine("1: Login");
             Console.WriteLine("2: Register");
+            Console.WriteLine();
             Console.Write("Please choose an option: ");
+
 
             if (!int.TryParse(Console.ReadLine(), out int loginRegister))
             {
@@ -60,6 +63,7 @@ namespace TenmoClient
             {
                 Console.WriteLine();
                 Console.WriteLine("Welcome to TEnmo! Please make a selection: ");
+                Console.WriteLine();
                 Console.WriteLine("1: View your current balance");
                 Console.WriteLine("2: View your past transfers");
                 Console.WriteLine("3: View your pending requests - (Coming Soon!)");
@@ -90,7 +94,9 @@ namespace TenmoClient
                             break;
                         case 3:
                             Console.Clear();
+                            Console.WriteLine();
                             Console.WriteLine("Look for this feature in a future update!");
+                            Console.WriteLine();
                             break;
                         case 4:
                             Console.Clear();
@@ -99,7 +105,10 @@ namespace TenmoClient
                             Console.WriteLine();
                             break;
                         case 5:
+                            Console.Clear();
+                            Console.WriteLine();
                             Console.WriteLine("Look for this feature in a future update!");
+                            Console.WriteLine();
                             break;
                         case 6:
                             Console.WriteLine();
@@ -124,6 +133,10 @@ namespace TenmoClient
 
             while (!isRegistered) //will keep looping until user is registered
             {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("Welcome to TEnmo! Please register your account:");
+                Console.WriteLine();
                 LoginUser registerUser = consoleService.PromptForLogin();
 
                 isRegistered = authService.Register(registerUser);
@@ -131,12 +144,18 @@ namespace TenmoClient
 
             Console.WriteLine("");
             Console.WriteLine("Registration successful. You can now log in.");
+            Console.WriteLine();
         }
 
         private void HandleUserLogin()
         {
             while (!UserService.IsLoggedIn) //will keep looping until user is logged in
             {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("Welcome to TEnmo! Please login:");
+                Console.WriteLine();
+
                 LoginUser loginUser = consoleService.PromptForLogin();
 
                 API_User user = authService.Login(loginUser);
@@ -157,7 +176,9 @@ namespace TenmoClient
 
             //if (balance != null)
             //{
+            Console.WriteLine();
             Console.WriteLine("Your account balance is: " + balance.ToString("C"));
+            Console.WriteLine();
             //}
             //else
             //{
@@ -187,6 +208,13 @@ namespace TenmoClient
         {
             API_Transfer transfer = this.consoleService.PromptForTransfer();
 
+            List<API_User> allUsers = accountService.GetAllUserAccounts();
+            List<int> userIDs = new List<int>();
+            foreach (API_User user in allUsers)
+            {
+                userIDs.Add(user.UserId);
+            }
+
             decimal balance = accountService.GetBalance();
 
             if (this.accountService.TransferTEBucks(transfer) != null)
@@ -194,21 +222,34 @@ namespace TenmoClient
                 if (balance < transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
                 {
                     Console.Clear();
+                    Console.WriteLine();
                     Console.WriteLine("Insufficient funds for transfer");
                 }
                 else if (balance >= transfer.Amount && transfer.AccountFrom == transfer.AccountTo)
                 {
                     Console.Clear();
+                    Console.WriteLine();
                     Console.WriteLine("Cannot transfer funds to yourself!");
                 }
+                else if (!userIDs.Contains(transfer.AccountTo))
+                {
+                    Console.Clear();
+                    Console.WriteLine();
+                    Console.WriteLine("Please enter a valid user ID to transfer to!");
+                }
+
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine("Transfer Complete");
+                    Console.WriteLine();
+                    Console.WriteLine("Transfer Complete!");
+                    Console.WriteLine("You have sent " + transfer.Amount.ToString("C") + " to User " + transfer.AccountTo);
                 }
             }
 
         }
+
+
         private void DisplayAllTransferForUser()
         {
             Console.WriteLine("------------------------------------------------");
@@ -226,21 +267,25 @@ namespace TenmoClient
         {
             int transferID = consoleService.PromptForTransferID();
             Dictionary<string, string> transferDetail = accountService.GetTransferByID(transferID);
+
             Console.Clear();
-            Console.WriteLine("-------------------------------------------");
-            Console.WriteLine("Transfer Details");
-            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("Transfer Details *(No details with invalid entry.)");
+            Console.WriteLine("--------------------------------------------------");
+
+
             foreach (KeyValuePair<string, string> kvp in transferDetail)
             {
-                if (transferDetail.ContainsKey(transferID.ToString()))
+                if (transferDetail.ContainsValue(transferID.ToString()))
                 {
                     Console.Write(kvp.Key);
                     Console.WriteLine(kvp.Value);
                 }
-                else
 
-                    Console.WriteLine("Please enter a valid transaction ID");
             }
+
+
+
 
 
         }
