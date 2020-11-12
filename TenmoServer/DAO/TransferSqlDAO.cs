@@ -114,8 +114,8 @@ namespace TenmoServer.DAO
                 Console.WriteLine("Please enter a valid user ID to transfer to!" + ex.Message);
                 return transfer;
             }
-        
-    
+
+
 
 
         }
@@ -175,8 +175,8 @@ namespace TenmoServer.DAO
                     cmd.Parameters.AddWithValue("@AccountID", accountID);
 
                     SqlDataReader reader = cmd.ExecuteReader();
-
-
+                    
+                    
                     while (reader.Read())
                     {
 
@@ -201,6 +201,3 @@ namespace TenmoServer.DAO
     }
 
 }
-
-
-
