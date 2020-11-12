@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using TenmoClient.APIClients;
 using TenmoClient.Data;
 
@@ -101,7 +102,7 @@ namespace TenmoClient
                         case 4:
                             Console.Clear();
                             DisplayAllUsers();
-                            PromptAndAddNewTransfer();
+                            PromptForTransfer();
                             Console.WriteLine();
                             break;
                         case 5:
@@ -204,10 +205,11 @@ namespace TenmoClient
             }
         }
 
-        private void PromptAndAddNewTransfer()
-        {
-            API_Transfer transfer = this.consoleService.PromptForTransfer();
 
+        public void PromptForTransfer()
+        {
+            API_Transfer transfer = new API_Transfer();
+            transfer.AccountFrom = UserService.UserId();
             List<API_User> allUsers = accountService.GetAllUserAccounts();
             List<int> userIDs = new List<int>();
             foreach (API_User user in allUsers)
@@ -215,27 +217,58 @@ namespace TenmoClient
                 userIDs.Add(user.UserId);
             }
 
+            Console.WriteLine("---------");
+            Console.WriteLine();
+            Console.Write("Enter ID of user you are sending to (0 to cancel): ");
+            int selection = -1;
+            if (!int.TryParse(Console.ReadLine(), out selection))
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid input. Please enter only a number.");
+                return;
+            }
+            if (selection == 0)
+            {
+                return;
+            }
+            transfer.AccountTo = selection;
+            if (!userIDs.Contains(transfer.AccountTo))
+            {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("Please enter a valid user ID to transfer to!");
+                return;
+
+            }
+            else if (transfer.AccountFrom == transfer.AccountTo)
+            {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("Cannot transfer funds to yourself!");
+                return;
+
+            }
+
+            Console.Write("Enter amount: ");
+            decimal transferAmount = -1;
+            if (!decimal.TryParse(Console.ReadLine(), out transferAmount))
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid input. Please enter only valid dollar amount.");
+                return;
+
+            }
+            transfer.Amount = transferAmount;
+
             decimal balance = accountService.GetBalance();
 
             if (this.accountService.TransferTEBucks(transfer) != null)
             {
-                if (balance < transfer.Amount && transfer.AccountFrom != transfer.AccountTo)
+                if (balance < transfer.Amount)
                 {
                     Console.Clear();
                     Console.WriteLine();
                     Console.WriteLine("Insufficient funds for transfer");
-                }
-                else if (balance >= transfer.Amount && transfer.AccountFrom == transfer.AccountTo)
-                {
-                    Console.Clear();
-                    Console.WriteLine();
-                    Console.WriteLine("Cannot transfer funds to yourself!");
-                }
-                else if (!userIDs.Contains(transfer.AccountTo))
-                {
-                    Console.Clear();
-                    Console.WriteLine();
-                    Console.WriteLine("Please enter a valid user ID to transfer to!");
                 }
 
                 else
@@ -246,9 +279,7 @@ namespace TenmoClient
                     Console.WriteLine("You have sent " + transfer.Amount.ToString("C") + " to User " + transfer.AccountTo);
                 }
             }
-
         }
-
 
         private void DisplayAllTransferForUser()
         {
@@ -265,15 +296,29 @@ namespace TenmoClient
 
         public void DisplayTransferDetails()
         {
-            int transferID = consoleService.PromptForTransferID();
+            Console.WriteLine();
+            Console.Write($"Please enter transfer ID to see more details (0 to cancel): ");
+
+            if (!int.TryParse(Console.ReadLine(), out int transferID))
+            {
+               
+                Console.WriteLine();
+                //Console.WriteLine("Invalid input. Only input a number.");
+
+            }
+            else if (transferID == 0)
+            {
+                Console.Clear();
+                return;
+            }
+
             Dictionary<string, string> transferDetail = accountService.GetTransferByID(transferID);
-
-            Console.Clear();
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("Transfer Details *(No details with invalid entry.)");
-            Console.WriteLine("--------------------------------------------------");
-
-
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------");
+            Console.WriteLine("Transfer Details *No details with invalid entry!");
+            Console.WriteLine("------------------------------------------------");
+            Console.WriteLine();
             foreach (KeyValuePair<string, string> kvp in transferDetail)
             {
                 if (transferDetail.ContainsValue(transferID.ToString()))
@@ -283,10 +328,6 @@ namespace TenmoClient
                 }
 
             }
-
-
-
-
 
         }
     }

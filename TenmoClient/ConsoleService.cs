@@ -16,36 +16,8 @@ namespace TenmoClient
         /// <returns>ID of transfers to view, approve, or reject</returns>
 
 
-        public int PromptForTransferID()
-        {
-            Console.WriteLine("");
-            Console.Write($"Please enter transfer ID to see more details (0 to cancel): ");
-            if (!int.TryParse(Console.ReadLine(), out int transferId))
-            {
-                Console.WriteLine("Invalid input. Only input a number.");
-                return 0;
-            }
-
-            return transferId;
-        }
-        public API_Transfer PromptForTransfer()
-        {
-            Console.WriteLine("---------");
-            Console.WriteLine();
-            Console.Write("Enter ID of user you are sending to (0 to cancel): ");
-            int userId = Convert.ToInt32(Console.ReadLine());
-
-            Console.Write("Enter amount: ");
-            decimal amount = Convert.ToDecimal(Console.ReadLine());
-
-            return new API_Transfer()
-            {
-                AccountFrom = UserService.UserId(),
-
-                AccountTo = userId,
-                Amount = amount,
-            };
-        }
+        
+        
 
         public LoginUser PromptForLogin()
         {

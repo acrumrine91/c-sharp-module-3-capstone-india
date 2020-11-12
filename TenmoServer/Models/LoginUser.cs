@@ -7,7 +7,7 @@ namespace TenmoServer.Models
     /// </summary>
     public class LoginUser
 
-    {
+    {   
     [Required]
         public string Username { get; set; }
         [Required]
